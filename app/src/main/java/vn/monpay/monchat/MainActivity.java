@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity
     //++login form=======================
     private Button button_login_signin;
     private Button button_login_signup;
-
     //--
 
     @Override
