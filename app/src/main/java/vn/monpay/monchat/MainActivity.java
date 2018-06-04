@@ -1,10 +1,14 @@
 package vn.monpay.monchat;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,7 +24,23 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import vn.monpay.monchat.API.Link;
 import vn.monpay.monchat.Utilities.F;
+import vn.monpay.monchat.Utilities.L;
+import vn.monpay.monchat.Utilities.VolleySingleton;
 
 /**
  * Created by mobilechatsystem@gmail.com on 06/03/2018.
@@ -28,6 +48,7 @@ import vn.monpay.monchat.Utilities.F;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public String LogTag ="MonChat";
     private int intent_result_signup = 1001;
 
     FloatingActionButton fab;
@@ -44,6 +65,12 @@ public class MainActivity extends AppCompatActivity
     private Button button_login_with_facebook;
     private Button button_login_with_google;
     //--
+    //++main===============================
+    private Button button_main_logout;
+
+
+
+    //--main===============================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +182,18 @@ public class MainActivity extends AppCompatActivity
 
             fab.setImageResource(android.R.drawable.ic_dialog_email);
 
+            button_main_logout = (Button)promptView.findViewById(R.id.button_main_logout);
+            //button_main_logout.setText(Language.GetContent(""));
+            button_main_logout.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    SessionInfo.InitLogout();
+                    ReloadUI();
+                }
+            });
+
         }
         else
         {
@@ -194,9 +233,9 @@ public class MainActivity extends AppCompatActivity
                         return;
                     }
 
-                    SessionInfo.setUserName("root");
-                    SessionInfo.setAccess_token("--");
-                    ReloadUI();
+                    //SessionInfo.setUserName("root");
+                    //SessionInfo.setAccess_token("--");
+                    LoginProcess(email,password);
                 }
             });
             button_login_signup = (Button)promptView.findViewById(R.id.button_login_signup);
@@ -265,10 +304,118 @@ public class MainActivity extends AppCompatActivity
         this.progressDialog.setMessage(message);
         this.progressDialog.show();
     }
-    private void Dismiss_ProgressDialog(String message)
+    private void Dismiss_ProgressDialog()
     {
         if(progressDialog!=null)
             progressDialog.dismiss();
 
     }
+
+    //===========================
+
+    public void LoginProcess(String username, String password) {
+
+        // Showing progress dialog at user registration time.
+        Show_ProgressDialog(L.getString(getApplicationContext(),R.string.txt_please_wait));
+        VolleySingleton volleySingleton = VolleySingleton.getInstance(getApplicationContext());
+
+
+        RequestQueue queue = volleySingleton.getRequestQueue();
+
+        SessionInfo.setUserName(username);
+
+        /*Post data*/
+        JSONObject jsonObject = F.NewJSONObject("grant_type", "password","username",username,"password",password );
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Link.getLink(Link.link_auth_login), jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                Log.d(LogTag,response.toString());
+
+                Dismiss_ProgressDialog();
+
+                String access_token = F.GetStringFromJSONObject(response,"access_token");
+                if (!F.isEmpty(access_token))
+                {
+                    SessionInfo.InitLoginValue(response);
+                    ReloadUI();
+
+                    /*
+                    mSocket.connect();
+                    JSONObject njson = new JSONObject();
+                    njson.putOpt("token", response.getString("access_token"));
+
+
+                    mSocket.emit("authenticate",njson);
+                    // Opening the user profile activity using intent.
+                    Intent intent = new Intent(SignInActivity.this, ProfileActivity.class);
+
+                    // Sending User Email to another activity using intent.
+                    intent.putExtra("UserEmailTAG", EmailHolder+"; Access_Token: "+response.getString("access_token").toString());
+
+
+                    startActivity(intent);
+                    */
+
+                } else {
+                    //Send message when something goes wrong
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(MainActivity.this);
+
+                            dlgAlert.setPositiveButton("OK", null);
+                            dlgAlert.setCancelable(true);
+                            dlgAlert.create().show();
+                        }
+                    });
+                }
+
+//                        Toast.makeText(SignInActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Dismiss_ProgressDialog();
+                F.ToastShort(MainActivity.this,error.toString());
+
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> headers = new HashMap<String, String>();
+                headers.put("cache-control", "no-cache");
+                headers.put("X-XSRF-TOKEN", "abcnnnd");
+                headers.put("Cookie", "Idea-d0fd0ee6=4bf9a6bc-4dc4-4a06-aeba-6b1af486b719; _ga=GA1.1.855509286.1523590451; io=Xq7P4BWpCunPpKLLAAAF; XSRF-TOKEN=abcnnnd");
+                headers.put("content-type", "application/json; charset=utf-8");
+                // add headers <key,value>
+                String credentials = "client"+":"+"secret";
+                String auth = "Basic "
+                        + Base64.encodeToString(credentials.getBytes(),
+                        Base64.NO_WRAP);
+                headers.put("Authorization", auth);
+                return headers;
+            }
+
+//            @Override
+//            public String getBodyContentType() {
+//                return super.getBodyContentType();
+//            }
+            //            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                // Creating Map String Params.
+//                Map<String, String> params = new HashMap<String, String>();
+//                params.put("grant_type", "password");
+//                params.put("username", EmailHolder);
+//                params.put("password", PasswordHolder);
+//
+//                return params;
+//            }
+        };
+        queue.add(jsonObjectRequest);
+    }
+
 }

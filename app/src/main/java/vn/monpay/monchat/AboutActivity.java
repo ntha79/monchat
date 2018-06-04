@@ -11,6 +11,10 @@ import android.webkit.WebView;
 
 import vn.monpay.monchat.Controls.MonChatWebViewClient;
 
+/**
+ * Created by mobilechatsystem@gmail.com on 06/04/2018.
+ */
+
 public class AboutActivity extends AppCompatActivity {
 
     private WebView webView_about_content;

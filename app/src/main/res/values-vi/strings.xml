@@ -9,6 +9,7 @@
 
     <string name="txt_language">Language - Ngôn ngữ</string>
     <string name="txt_theme">Giao diện</string>
+    <string name="txt_please_wait">Vui lòng đợi...</string>
 
     <string name="txt_username_or_email">Username or email</string>
     <string name="txt_password">Password</string>
@@ -16,5 +17,6 @@
     <string name="txt_signup">Sign up</string>
     <string name="txt_login_with_facebook">Login with Facebook</string>
     <string name="txt_signin_with_google">Sign in with Google</string>
+    <string name="txt_logout">Log out</string>
 
 </resources>

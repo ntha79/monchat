@@ -2,6 +2,10 @@ package vn.monpay.monchat.Utilities;
 
 import android.content.Context;
 import android.support.annotation.StringRes;
+/**
+ * Created by mobilechatsystem@gmail.com on 06/04/2018.
+ */
+
 public class L {
 
     public static String current = "en-US";
