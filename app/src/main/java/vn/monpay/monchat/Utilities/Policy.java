@@ -18,5 +18,4 @@ public class Policy
             return true;
         return false;
     }
-
 }

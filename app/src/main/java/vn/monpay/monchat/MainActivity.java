@@ -119,7 +119,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     //=============================================
-    //Thuc
+    //Thuc hien load giao dien
+
     private void ReloadUI()
     {
         if(SessionInfo.isLogin())
@@ -167,4 +168,6 @@ public class MainActivity extends AppCompatActivity
             });
         }
     }
+
+
 }

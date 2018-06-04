@@ -13,8 +13,6 @@ public class VolleySingleton {
     private static final String TAG = "VolleySingleton";
     private RequestQueue mRequestQueue;
     private static VolleySingleton sInstance;
-
-
     private VolleySingleton(Context context) {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());

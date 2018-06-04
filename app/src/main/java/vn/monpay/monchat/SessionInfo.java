@@ -26,4 +26,6 @@ public class SessionInfo
     public static void setAccess_token(String  value){ access_token = value;}
     public static String getRefresh_token(){ return refresh_token;}
     public static void setRefresh_token(String  value){ refresh_token = value;}
+
+
 }

@@ -5,7 +5,5 @@ package vn.monpay.monchat.API;
  */
 
 public class Link {
-
     public static final String link_public = "http://35.198.245.187:8080/";//auth/login
-
 }

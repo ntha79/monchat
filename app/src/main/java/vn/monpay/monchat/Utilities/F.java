@@ -7,7 +7,6 @@ import android.text.TextUtils;
  */
 
 public class F {
-
     public static boolean isEmpty(String value) {
         return TextUtils.isEmpty(value) || value==null || value.equals("");
     }
