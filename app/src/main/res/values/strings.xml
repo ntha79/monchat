@@ -18,4 +18,19 @@
     <string name="txt_login_with_facebook">Login with Facebook</string>
     <string name="txt_signin_with_google">Sign in with Google</string>
     <string name="txt_logout">Log out</string>
+    <string name="txt_registration">Registration</string>
+    <string name="txt_username">Username</string>
+    <string name="txt_email">Email</string>
+    <string name="txt_confirm_password">Confirm password</string>
+    <string name="txt_register">Register</string>
+    <string name="txt_username_is_required">Username is required</string>
+    <string name="txt_email_is_required">Email is required</string>
+    <string name="txt_password_is_required">Password is required</string>
+    <string name="txt_confirm_password_is_required">Confirm password is required</string>
+    <string name="txt_confirm_password_is_invalid">Confirm password is invalid</string>
+    <string name="txt_email_is_invalid">Email is invalid</string>
+    <string name="txt_email_is_short">Email is short</string>
+    <string name="txt_email_is_long">Email is long</string>
+    <string name="txt_username_is_short">Username is short</string>
+    <string name="txt_username_is_long">Username is long</string>
 </resources>

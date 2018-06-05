@@ -5,7 +5,9 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
+/**
+ * Created by mobilechatsystem@gmail.com on 06/04/2018.
+ */
 public class MonChatWebViewClient extends WebViewClient {
 
     @Override

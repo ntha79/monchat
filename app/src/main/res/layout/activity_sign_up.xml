@@ -1,14 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".SignUpActivity">
 
-    <Button
-        android:id="@+id/button_signup_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back" />
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_title"
+        android:background="@color/colorPrimary"
+        >
+
+        <TextView
+            android:id="@+id/textView_signup_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_normal"
+            android:gravity="center"
+            android:text="@string/txt_registration" />
+
+        <Button
+            android:id="@+id/button_signup_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ic_arrow_back"
+            android:background="@null"
+            android:text="" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_all">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_dtitle"
+            android:padding="@dimen/padding_all"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_logo" />
+
+        <EditText
+            android:id="@+id/editText_registration_username"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_title"
+            android:hint="@string/txt_username"
+            android:ems="10" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_all"></View>
+        <EditText
+            android:id="@+id/editText_registration_email"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_title"
+            android:hint="@string/txt_email"
+            android:ems="10"
+            android:inputType="textEmailAddress"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_all"></View>
+        <EditText
+            android:id="@+id/editText_registration_password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_title"
+            android:hint="@string/txt_password"
+            android:ems="10"
+            android:inputType="textPassword"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_all"></View>
+        <EditText
+            android:id="@+id/editText_registration_confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_title"
+            android:hint="@string/txt_confirm_password"
+            android:ems="10"
+            android:inputType="textPassword"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_all"></View>
+
+        <Button
+            android:id="@+id/button_signup_register"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_button"
+            android:textSize="@dimen/text_normal"
+            android:textColor="@android:color/white"
+            android:background="@drawable/border_roundrect_fill_color"
+            android:textAllCaps="false"
+            android:text="@string/txt_register" />
+
+    </LinearLayout>
+
+</LinearLayout>

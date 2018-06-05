@@ -18,4 +18,26 @@ public class Policy
             return true;
         return false;
     }
+
+    public static boolean isShortUsername(String value)
+    {
+        int minLength = 6;
+        return isShort(value,minLength);
+    }
+    public static boolean isLongUsername(String value)
+    {
+        int maxLength = 100;
+        return isLong(value,maxLength);
+    }
+    public static boolean isShortEmail(String value)
+    {
+        int minLength = 6;
+        return isShort(value,minLength);
+    }
+
+    public static boolean isLongEmail(String value)
+    {
+        int maxLength = 100;
+        return isLong(value,maxLength);
+    }
 }

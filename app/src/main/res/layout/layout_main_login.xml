@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/txt_username_or_email"
             android:ems="10"
+            android:textSize="@dimen/text_normal"
             android:inputType="textEmailAddress" />
 
         <EditText
@@ -34,6 +35,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/txt_password"
+            android:textSize="@dimen/text_normal"
             android:inputType="textPassword" />
         <View
             android:layout_width="match_parent"
@@ -45,6 +47,7 @@
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:background="@drawable/border_roundrect_fill_color"
+            android:textSize="@dimen/text_normal"
             android:text="@string/txt_signin" />
         <View
             android:layout_width="match_parent"
@@ -56,6 +59,7 @@
             android:textAllCaps="false"
             android:textColor="@color/colorPrimary"
             android:background="@drawable/border_roundrect_fill_white"
+            android:textSize="@dimen/text_normal"
             android:text="@string/txt_signup" />
 
         <View
@@ -70,6 +74,7 @@
             android:textColor="@android:color/white"
             android:drawableLeft="@drawable/ic_facebook"
             android:background="@drawable/border_roundrect_fill_facebook"
+            android:textSize="@dimen/text_normal"
             android:text="@string/txt_login_with_facebook" />
         <View
             android:layout_width="match_parent"
@@ -83,6 +88,7 @@
             android:textColor="@android:color/white"
             android:drawableLeft="@drawable/ic_google"
             android:background="@drawable/border_roundrect_fill_google"
+            android:textSize="@dimen/text_normal"
             android:text="@string/txt_signin_with_google" />
     </LinearLayout>
 </RelativeLayout>

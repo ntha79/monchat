@@ -144,6 +144,14 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
+        if(L.IsEnglish())
+        {
+            L.current="vi-VN";
+        }
+        else
+            L.current="en-US";
+        L.forceLocale(this,"");
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -183,7 +191,6 @@ public class MainActivity extends AppCompatActivity
             fab.setImageResource(android.R.drawable.ic_dialog_email);
 
             button_main_logout = (Button)promptView.findViewById(R.id.button_main_logout);
-            //button_main_logout.setText(Language.GetContent(""));
             button_main_logout.setOnClickListener(new View.OnClickListener()
             {
                 @Override
