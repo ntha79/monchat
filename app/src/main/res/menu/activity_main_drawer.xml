@@ -3,36 +3,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="none"
+        android:id="@+id/menu_group_1">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_menu_new_group"
+            android:icon="@drawable/ic_menu_group"
+            android:title="@string/txt_new_group" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_menu_new_secret_chat"
+            android:icon="@drawable/ic_menu_secret"
+            android:title="@string/txt_new_secret_chat" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_menu_new_chanel"
+            android:icon="@drawable/ic_menu_chanel"
+            android:title="@string/txt_new_chanel" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
+    <group android:checkableBehavior="none"
+        android:id="@+id/menu_group_2">
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_menu_contact"
+                android:icon="@drawable/ic_menu_contacts"
+                android:title="@string/txt_contact" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+                android:id="@+id/nav_menu_saved_message"
+                android:icon="@drawable/ic_menu_saved_message"
+                android:title="@string/txt_saved_message" />
+            <item
+                android:id="@+id/nav_menu_call"
+                android:icon="@drawable/ic_menu_call"
+                android:title="@string/txt_calls" />
+            <item
+                android:id="@+id/nav_menu_invite_friends"
+                android:icon="@drawable/ic_menu_invite"
+                android:title="@string/txt_invite_friends" />
+    </group>
+    <group android:checkableBehavior="none"
+        android:id="@+id/menu_group_3">
+        <item
+            android:id="@+id/nav_menu_settings"
+            android:icon="@drawable/ic_menu_settings"
+            android:title="@string/txt_settings" />
+        <item
+            android:id="@+id/nav_menu_language"
+            android:icon="@drawable/ic_menu_language"
+            android:title="@string/txt_language" />
 
+    </group>
+    <group android:checkableBehavior="none"
+        android:id="@+id/menu_group_4">
+        <item
+            android:id="@+id/nav_menu_logout"
+            android:icon="@drawable/ic_menu_logout"
+            android:title="@string/txt_logout" />
+
+    </group>
 </menu>

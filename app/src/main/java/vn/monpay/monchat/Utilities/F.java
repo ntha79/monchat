@@ -5,8 +5,42 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.HttpVersion;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.LangUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * Created by mobilechatsystem@gmail.com on 06/03/2018.
@@ -44,7 +78,8 @@ public class F {
             value = object.getString(key);
             if(TextUtils.isEmpty(value)||value.equals("null"))
                 value ="";
-        } catch (JSONException e) {
+        }
+        catch (JSONException e) {
         }
         return value;
     }
@@ -68,8 +103,6 @@ public class F {
         }
         return value;
     }
-
-
     //--Json===================================
 
     public static String StringIsNull(Object value) {
@@ -112,6 +145,7 @@ public class F {
     }
 
 
+    //++Toast==================================
     public static void ToastShort(Context context, String message) {
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
@@ -123,4 +157,8 @@ public class F {
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
+
+    //--Toast==================================
+
+
 }

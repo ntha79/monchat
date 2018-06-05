@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -35,11 +36,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import vn.monpay.monchat.API.Link;
 import vn.monpay.monchat.Utilities.F;
 import vn.monpay.monchat.Utilities.L;
+import vn.monpay.monchat.Utilities.Token;
 import vn.monpay.monchat.Utilities.VolleySingleton;
 
 /**
@@ -51,8 +54,10 @@ public class MainActivity extends AppCompatActivity
     public String LogTag ="MonChat";
     private int intent_result_signup = 1001;
 
-    FloatingActionButton fab;
+    FloatingActionButton fabMain;
     DrawerLayout drawerMain;
+    NavigationView navigationView;
+    Menu menuMain;
     RelativeLayout relativeLayout_content_main;
 
     private ProgressDialog progressDialog;
@@ -67,6 +72,7 @@ public class MainActivity extends AppCompatActivity
     //--
     //++main===============================
     private Button button_main_logout;
+    private Button button_main_menu;
 
 
 
@@ -76,11 +82,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        L.LoadLanguage(getApplicationContext());
+        L.forceLocale(getApplicationContext(),"");
+
+        fabMain = (FloatingActionButton) findViewById(R.id.fab);
+        fabMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(SessionInfo.isLogin()) {
@@ -95,17 +102,15 @@ public class MainActivity extends AppCompatActivity
         });
 
         drawerMain = (DrawerLayout) findViewById(R.id.drawer_layout);
-       // ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-        //        this, drawerMain, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        //drawerMain.addDrawerListener(toggle);
-        //toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         navigationView.setNavigationItemSelectedListener(this);
-
+        navigationView.setItemIconTintList(null);
+        menuMain = navigationView.getMenu();
 
         relativeLayout_content_main = (RelativeLayout)findViewById(R.id.relativeLayout_content_main);
-
+        ChangeLanguage(false);
         ReloadUI();
     }
 
@@ -145,37 +150,101 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        if(L.IsEnglish())
-        {
-            L.current="vi-VN";
-        }
-        else
-            L.current="en-US";
-        L.forceLocale(this,"");
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+       if (id == R.id.nav_menu_new_group) {
 
         }
+        else if (id == R.id.nav_menu_new_secret_chat) {
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        }
+        else if (id == R.id.nav_menu_new_chanel) {
+
+        }
+        else if (id == R.id.nav_menu_contact) {
+
+        }
+        else if (id == R.id.nav_menu_saved_message) {
+
+        }
+        else if (id == R.id.nav_menu_call) {
+
+        }
+        else if (id == R.id.nav_menu_invite_friends) {
+
+        }
+        else if (id == R.id.nav_menu_settings) {
+
+        }
+        else if (id == R.id.nav_menu_language) {
+           ChangeLanguage(true);
+        }
+        else if (id == R.id.nav_menu_logout) {
+           Logout();
+        }
+
+
+        if(drawerMain!=null)
+            drawerMain.closeDrawer(GravityCompat.START);
         return true;
     }
 
     //=============================================
     //Thuc hien load giao dien
+
+    private void ChangeLanguage(boolean isChange){
+        if(isChange) {
+            if (L.IsEnglish()) {
+                L.current = "vi-VN";
+            } else
+                L.current = "en-US";
+            L.forceLocale(getApplicationContext(), "");
+            L.SaveLanguage(getApplicationContext());
+        }
+
+        MenuItem it_nav_menu_new_group = menuMain.findItem(R.id.nav_menu_new_group);
+        it_nav_menu_new_group.setTitle(L.getString(getApplicationContext(),R.string.txt_new_group));
+        //it_nav_menu_new_group.setEnabled(false);
+
+        MenuItem it_nav_menu_new_secret_chat = menuMain.findItem(R.id.nav_menu_new_secret_chat);
+        it_nav_menu_new_secret_chat.setTitle(L.getString(getApplicationContext(),R.string.txt_new_secret_chat));
+        //it_nav_menu_new_secret_chat.setEnabled(false);
+
+        MenuItem it_nav_menu_new_chanel = menuMain.findItem(R.id.nav_menu_new_chanel);
+        it_nav_menu_new_chanel.setTitle(L.getString(getApplicationContext(),R.string.txt_new_chanel));
+        //it_nav_menu_new_chanel.setEnabled(false);
+
+        MenuItem it_nav_menu_contact = menuMain.findItem(R.id.nav_menu_contact);
+        it_nav_menu_contact.setTitle(L.getString(getApplicationContext(),R.string.txt_contact));
+        //it_nav_menu_contact.setEnabled(false);
+
+        MenuItem it_nav_menu_saved_message = menuMain.findItem(R.id.nav_menu_saved_message);
+        it_nav_menu_saved_message.setTitle(L.getString(getApplicationContext(),R.string.txt_saved_message));
+        //it_nav_menu_saved_message.setEnabled(false);
+
+        MenuItem it_nav_menu_call = menuMain.findItem(R.id.nav_menu_call);
+        it_nav_menu_call.setTitle(L.getString(getApplicationContext(),R.string.txt_calls));
+        //it_nav_menu_call.setEnabled(false);
+
+        MenuItem it_nav_menu_invite_friends = menuMain.findItem(R.id.nav_menu_invite_friends);
+        it_nav_menu_invite_friends.setTitle(L.getString(getApplicationContext(),R.string.txt_invite_friends));
+        //it_nav_menu_invite_friends.setEnabled(false);
+
+        MenuItem it_nav_menu_settings = menuMain.findItem(R.id.nav_menu_settings);
+        it_nav_menu_settings.setTitle(L.getString(getApplicationContext(),R.string.txt_settings));
+        //it_nav_menu_settings.setEnabled(false);
+
+        MenuItem it_nav_menu_language = menuMain.findItem(R.id.nav_menu_language);
+        it_nav_menu_language.setTitle(L.getString(getApplicationContext(),R.string.txt_language));
+        //it_nav_menu_L.setEnabled(false);
+
+        MenuItem it_nav_menu_logout = menuMain.findItem(R.id.nav_menu_logout);
+        it_nav_menu_logout.setTitle(L.getString(getApplicationContext(),R.string.txt_logout));
+        //it_nav_menu_logout.setEnabled(false);
+
+    }
 
     private void ReloadUI()
     {
@@ -188,7 +257,18 @@ public class MainActivity extends AppCompatActivity
             View promptView = layoutInflater.inflate(R.layout.layout_main_access, null);
             relativeLayout_content_main.addView(promptView);
 
-            fab.setImageResource(android.R.drawable.ic_dialog_email);
+            fabMain.setImageResource(R.drawable.ic_pen_edit_white);
+
+            button_main_menu= (Button)promptView.findViewById(R.id.button_main_menu);
+            button_main_menu.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    if(drawerMain!=null)
+                        drawerMain.openDrawer(Gravity.LEFT);
+                }
+            });
 
             button_main_logout = (Button)promptView.findViewById(R.id.button_main_logout);
             button_main_logout.setOnClickListener(new View.OnClickListener()
@@ -204,7 +284,7 @@ public class MainActivity extends AppCompatActivity
         }
         else
         {
-            fab.setImageResource(android.R.drawable.ic_dialog_info);
+            fabMain.setImageResource(android.R.drawable.ic_dialog_info);
             if(drawerMain!=null)
             {
                 drawerMain.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -229,19 +309,16 @@ public class MainActivity extends AppCompatActivity
 
                     if(F.isEmpty(email))
                     {
-                        Toast.makeText(getApplicationContext(),"Email is required", Toast.LENGTH_SHORT).show();
+                        F.ToastShort(getApplicationContext(),L.getString(getApplicationContext(),R.string.txt_email_is_required));
                         editText_login_username.requestFocus();
                         return;
                     }
                     if(F.isEmpty(password))
                     {
-                        Toast.makeText(getApplicationContext(),"Password is required", Toast.LENGTH_SHORT).show();
+                        F.ToastShort(getApplicationContext(),L.getString(getApplicationContext(),R.string.txt_password_is_required));
                         editText_login_password.requestFocus();
                         return;
                     }
-
-                    //SessionInfo.setUserName("root");
-                    //SessionInfo.setAccess_token("--");
                     LoginProcess(email,password);
                 }
             });
@@ -337,8 +414,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(JSONObject response) {
 
-                Log.d(LogTag,response.toString());
-
+                Link.LogResult(LogTag,response.toString(),"OK","","");
                 Dismiss_ProgressDialog();
 
                 String access_token = F.GetStringFromJSONObject(response,"access_token");
@@ -377,52 +453,33 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
                 }
-
-//                        Toast.makeText(SignInActivity.this, response.toString(), Toast.LENGTH_LONG).show();
-
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Dismiss_ProgressDialog();
-                F.ToastShort(MainActivity.this,error.toString());
+                Link.LogResult(LogTag,error.toString(),"ERR","","");
+                F.ToastLong(getApplicationContext(),L.TransResult(getApplicationContext(), error.toString()));
+                //test
+                JSONObject jsonObject = F.NewJSONObject("access_token","eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJyb290Iiwic2NvcGUiOlsib3BlbmlkIl0sImV4cCI6MTUyODEyNzQ0OSwiaWF0IjoxNTI4MTI3MTQ5LCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImp0aSI6ImJiYTNmNjFiLTE5NzItNGJkNy1hZmJhLWZlNGExMDJjNzA4NyIsImNsaWVudF9pZCI6IndlYl9hcHAifQ.kdY_PWP1Ny_Uw1hS2ztlf3QILq7doMNQVGX2BE0x6xHn6MFXPZJNWCnNk4jY-xz8ZuhpxC79m9HP1MoWg93VAXJawarbNlelPGXRLpxkdE2kLFlKrnrJ6W1VzNkRuqRNom3aK6emywCwccZ-iMuoEz7r5xZmLMGWy7jxDMaqxgZPJ4dgYkwO-AV-AjmZN_uYObO2e56TZcRcyen3T_ukEGwF_bLH0b76Lctl_e1lqGJKY39fOhh3HoipvmmdA8JhNTTxMubl9gi59T9e9Q8cdpwY7ASRQmGqgkXnYUTAl6TVX63T4fJ4PA-Jw_BhuPFtfh_hSRSxALFd2wS8eVV49w","token_type","bearer","refresh_token","eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJyb290Iiwic2NvcGUiOlsib3BlbmlkIl0sImF0aSI6ImJiYTNmNjFiLTE5NzItNGJkNy1hZmJhLWZlNGExMDJjNzA4NyIsImV4cCI6MTUyODczMTk0OSwiaWF0IjoxNTI4MTI3MTQ5LCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImp0aSI6IjljZDBhMDA3LTZlMmItNDljMi1hOWVlLTkzM2ZmNjAwMmFhZCIsImNsaWVudF9pZCI6IndlYl9hcHAifQ.QxWY69N_BsTFDoOx3sfmmwbMey-3AURWBB3R0tOoFACmR1ruiCA44_AcdhiQ0bdhEytaomcio4ScaQKk9xCr67397kGkXip2AdPetg48Jck9rNDYEcaqbJ5u0T_5y_5SYFuhyyaxB9pfJ7cE08E7ki2EAJCfX9y5f1oCP9Tx39XXQb4u4093EnbGfwL5U4yQQ8NfUIo-VVS5_NVbEeCnI1Wsk8Gj0jxH-TM3Q6d4XUSIR5mH8i7B5fkHPl93o3Si3EtNsE3k3dilctLuyeTlvPF95bnIlhjjBMH761kp8yDRVja_LWacQWFWDQ-4zzLawKda3ydOONVV7_8R8gZVxg","expires_in",299,"scope","openid","iat",1528127149,"jti","bba3f61b-1972-4bd7-afba-fe4a102c7087");
+                SessionInfo.InitLoginValue(jsonObject);
+                ReloadUI();
 
             }
         }) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> headers = new HashMap<String, String>();
-                headers.put("cache-control", "no-cache");
-                headers.put("X-XSRF-TOKEN", "abcnnnd");
-                headers.put("Cookie", "Idea-d0fd0ee6=4bf9a6bc-4dc4-4a06-aeba-6b1af486b719; _ga=GA1.1.855509286.1523590451; io=Xq7P4BWpCunPpKLLAAAF; XSRF-TOKEN=abcnnnd");
-                headers.put("content-type", "application/json; charset=utf-8");
-                // add headers <key,value>
-                String credentials = "client"+":"+"secret";
-                String auth = "Basic "
-                        + Base64.encodeToString(credentials.getBytes(),
-                        Base64.NO_WRAP);
-                headers.put("Authorization", auth);
-                return headers;
+                return Token.getHeaders();
             }
-
-//            @Override
-//            public String getBodyContentType() {
-//                return super.getBodyContentType();
-//            }
-            //            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                // Creating Map String Params.
-//                Map<String, String> params = new HashMap<String, String>();
-//                params.put("grant_type", "password");
-//                params.put("username", EmailHolder);
-//                params.put("password", PasswordHolder);
-//
-//                return params;
-//            }
         };
         queue.add(jsonObjectRequest);
     }
 
+    private void Logout()
+    {
+        SessionInfo.InitLogout();
+        ReloadUI();
+    }
 }

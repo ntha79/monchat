@@ -1,6 +1,8 @@
 package vn.monpay.monchat;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +25,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText editText_registration_password;
     private EditText editText_registration_confirm_password;
     private Button button_signup_register;
+    private FloatingActionButton fab_signup_about;
 
 
     @Override
@@ -31,10 +34,16 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        fab_signup_about = (FloatingActionButton)findViewById(R.id.fab_signup_about);
+        fab_signup_about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Show_About();
+            }
+        });
+
         textView_signup_title = (TextView)findViewById(R.id.textView_signup_title);
-        ////textView_signup_title.setText(Language.GetContent(""));
         button_signup_back = (Button)findViewById(R.id.button_signup_back);
-        //button_signup_back.setText(Language.GetContent(""));
         button_signup_back.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -44,19 +53,10 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
         editText_registration_username = (EditText)findViewById(R.id.editText_registration_username);
-        ////editText_registration_username.setHint(Language.GetContent(""));
-        ////editText_registration_username.setText(Language.GetContent(""));
         editText_registration_email = (EditText)findViewById(R.id.editText_registration_email);
-        ////editText_registration_email.setHint(Language.GetContent(""));
-        ////editText_registration_email.setText(Language.GetContent(""));
         editText_registration_password = (EditText)findViewById(R.id.editText_registration_password);
-        ////editText_registration_password.setHint(Language.GetContent(""));
-        ////editText_registration_password.setText(Language.GetContent(""));
         editText_registration_confirm_password = (EditText)findViewById(R.id.editText_registration_confirm_password);
-        ////editText_registration_confirm_password.setHint(Language.GetContent(""));
-        ////editText_registration_confirm_password.setText(Language.GetContent(""));
         button_signup_register = (Button)findViewById(R.id.button_signup_register);
-        //button_signup_register.setText(Language.GetContent(""));
         button_signup_register.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -134,5 +134,10 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
+    }
+    public void Show_About()
+    {
+        Intent intent = new Intent(SignUpActivity.this, AboutActivity.class);
+        startActivityForResult(intent,0);
     }
 }

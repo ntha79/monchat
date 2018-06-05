@@ -11,7 +11,7 @@ import vn.monpay.monchat.Utilities.F;
 
 public class SessionInfo
 {
-    private static String userName = "";
+    private static  String userName = "";
     private static  String access_token = "";			//Y nghia:
     private static  String token_type = "";			//Y nghia:
     private static  String refresh_token = "";			//Y nghia:

@@ -3,7 +3,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_subtitle">mobilechatsystem@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
@@ -12,26 +12,36 @@
     <string name="txt_please_wait">Vui lòng đợi...</string>
 
     <string name="txt_username_or_email">Email hoặc tài khoản</string>
-    <string name="txt_password">Password</string>
-    <string name="txt_signin">Sign in</string>
-    <string name="txt_signup">Sign up</string>
-    <string name="txt_login_with_facebook">Login with Facebook</string>
-    <string name="txt_signin_with_google">Sign in with Google</string>
-    <string name="txt_logout">Log out</string>
-    <string name="txt_registration">Registration</string>
-    <string name="txt_username">Username</string>
+    <string name="txt_password">Mật khẩu</string>
+    <string name="txt_signin">Đăng nhập</string>
+    <string name="txt_signup">Đăng ký</string>
+    <string name="txt_login_with_facebook">Đăng nhập bằng Facebook</string>
+    <string name="txt_signin_with_google">Đăng nhập bằng Google</string>
+    <string name="txt_logout">Thoát</string>
+    <string name="txt_registration">Đăng ký</string>
+    <string name="txt_username">Tài khoản</string>
     <string name="txt_email">Email</string>
-    <string name="txt_confirm_password">Confirm password</string>
-    <string name="txt_register">Register</string>
-    <string name="txt_username_is_required">Username is required</string>
-    <string name="txt_email_is_required">Email is required</string>
-    <string name="txt_password_is_required">Password is required</string>
-    <string name="txt_confirm_password_is_required">Confirm password is required</string>
-    <string name="txt_confirm_password_is_invalid">Confirm password is invalid</string>
-    <string name="txt_email_is_invalid">Email is invalid</string>
-    <string name="txt_email_is_short">Email is short</string>
-    <string name="txt_email_is_long">Email is long</string>
-    <string name="txt_username_is_short">Username is short</string>
-    <string name="txt_username_is_long">Username is long</string>
+    <string name="txt_confirm_password">Xác nhận mật khẩu</string>
+    <string name="txt_register">Đăng ký</string>
+    <string name="txt_username_is_required">Yêu cầu nhập tài khoản</string>
+    <string name="txt_email_is_required">Yêu cầu nhập email</string>
+    <string name="txt_password_is_required">Yêu cầu nhập mật khẩu</string>
+    <string name="txt_confirm_password_is_required">Yêu cầu nhập xác nhận mật khẩu</string>
+    <string name="txt_confirm_password_is_invalid">Xác nhận mật khẩu không khớp</string>
+    <string name="txt_email_is_invalid">Email không hợp lệ</string>
+    <string name="txt_email_is_short">Email quá ngắn</string>
+    <string name="txt_email_is_long">Email quá dài</string>
+    <string name="txt_username_is_short">Tài khoản quá ngắn</string>
+    <string name="txt_username_is_long">Tài khoản quá dài</string>
+
+    <string name="txt_new_group">Nhóm mới</string>
+    <string name="txt_new_secret_chat">Trò chuyện bí mật mới</string>
+    <string name="txt_new_chanel">Kênh mới</string>
+    <string name="txt_contact">Liên hệ</string>
+    <string name="txt_saved_message">Tin nhắn đã lưu</string>
+    <string name="txt_calls">Cuộc gọi</string>
+    <string name="txt_invite_friends">Mời bạn bè</string>
+    <string name="txt_settings">Cấu hình</string>
+    <string name="txt_server_error">Kết nối đến máy chủ bị gián đoạn</string>
 
 </resources>
