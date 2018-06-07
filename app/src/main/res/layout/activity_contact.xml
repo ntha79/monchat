@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ContactActivity">
     <RelativeLayout
-        android:id="@+id/relativeLayout_main_title"
+        android:id="@+id/relativeLayout_contact_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_title"
         android:background="@color/colorPrimary"
@@ -14,13 +15,13 @@
 
 
         <TextView
-            android:id="@+id/textView_main_title"
+            android:id="@+id/textView_contact_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_normal"
             android:gravity="center"
-            android:text="@string/app_name" />
+            android:text="@string/txt_contact" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -29,40 +30,53 @@
 
 
             <Button
-                android:id="@+id/button_main_menu"
+                android:id="@+id/button_contact_menu"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 android:background="@null"
-                android:drawableLeft="@drawable/ic_menu"
+                android:drawableLeft="@drawable/ic_arrow_back"
                 android:paddingLeft="@dimen/padding_all"
                 android:text="" />
+
             <EditText
 
-                android:layout_toRightOf="@+id/button_main_menu"
-                android:id="@+id/editText_main_search"
+                android:id="@+id/editText_contact_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/border"
                 android:layout_marginLeft="@dimen/border"
                 android:layout_marginRight="@dimen/border"
                 android:layout_marginTop="@dimen/border"
-                android:paddingLeft="@dimen/padding_all"
+                android:layout_toLeftOf="@+id/button_contact_add"
+                android:layout_toRightOf="@+id/button_contact_menu"
                 android:layout_weight="1"
                 android:background="@drawable/border_roundrect_fill_white"
                 android:ems="10"
                 android:hint="@string/txt_enter_search_text"
                 android:inputType="textPersonName"
+                android:paddingLeft="@dimen/padding_all"
                 android:textSize="@dimen/text_normal"
-                android:visibility="visible" />
+                android:visibility="gone" />
             <Button
-                android:id="@+id/button_main_search"
+                android:id="@+id/button_contact_search"
+                android:layout_toLeftOf="@+id/button_contact_add"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:background="@null"
+                android:drawableRight="@drawable/ic_search"
+                android:paddingRight="@dimen/padding_all"
+                android:text="" />
+
+            <Button
+                android:id="@+id/button_contact_add"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_weight="0"
                 android:background="@null"
-                android:drawableRight="@drawable/ic_search"
+                android:drawableRight="@drawable/ic_add_white"
                 android:paddingRight="@dimen/padding_all"
                 android:text="" />
         </RelativeLayout>
@@ -70,8 +84,8 @@
 
     <ListView
 
-        android:id="@+id/listView_main_chattitle"
+        android:id="@+id/listView_contact_chattitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/relativeLayout_main_title" />
+        android:layout_below="@+id/relativeLayout_contact_title" />
 </RelativeLayout>

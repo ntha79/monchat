@@ -4,9 +4,15 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -35,11 +42,15 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import vn.monpay.monchat.API.Link;
+import vn.monpay.monchat.Models.ChatTitleAdapter;
+import vn.monpay.monchat.Models.ChatTitleItem;
 import vn.monpay.monchat.Utilities.F;
 import vn.monpay.monchat.Utilities.L;
 import vn.monpay.monchat.Utilities.Token;
@@ -53,6 +64,7 @@ public class MainActivity extends AppCompatActivity
 
     public String LogTag ="MonChat";
     private int intent_result_signup = 1001;
+    private int intent_result_contact = 1001;
 
     FloatingActionButton fabMain;
     DrawerLayout drawerMain;
@@ -71,12 +83,17 @@ public class MainActivity extends AppCompatActivity
     private Button button_login_with_google;
     //--
     //++main===============================
-    private Button button_main_logout;
+    private ListView listView_main_chattitle;
     private Button button_main_menu;
+    private Button button_main_search;
+    private EditText editText_main_search;
+    private boolean editText_main_search_visible = false;
 
 
 
     //--main===============================
+
+    List<ChatTitleItem> listDataChatTitle = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +108,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 if(SessionInfo.isLogin()) {
-                    Snackbar.make(view, "New message...", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    Show_Contact(L.getString(getApplicationContext(),R.string.txt_create_new_message),true);
+                    //Snackbar.make(view, "New message...", Snackbar.LENGTH_LONG)
+                    //        .setAction("Action", null).show();
                 }
                 else
                 {
@@ -110,6 +128,8 @@ public class MainActivity extends AppCompatActivity
         menuMain = navigationView.getMenu();
 
         relativeLayout_content_main = (RelativeLayout)findViewById(R.id.relativeLayout_content_main);
+
+        listDataChatTitle = ChatTitleItem.GetListDemo();
         ChangeLanguage(false);
         ReloadUI();
     }
@@ -154,7 +174,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-       if (id == R.id.nav_menu_new_group) {
+        if (id == R.id.nav_menu_new_group) {
 
         }
         else if (id == R.id.nav_menu_new_secret_chat) {
@@ -164,7 +184,7 @@ public class MainActivity extends AppCompatActivity
 
         }
         else if (id == R.id.nav_menu_contact) {
-
+            Show_Contact(L.getString(getApplicationContext(),R.string.txt_contact),false);
         }
         else if (id == R.id.nav_menu_saved_message) {
 
@@ -179,10 +199,10 @@ public class MainActivity extends AppCompatActivity
 
         }
         else if (id == R.id.nav_menu_language) {
-           ChangeLanguage(true);
+            ChangeLanguage(true);
         }
         else if (id == R.id.nav_menu_logout) {
-           Logout();
+            Logout();
         }
 
 
@@ -265,21 +285,72 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view)
                 {
+                    F.EndEditing(MainActivity.this);
                     if(drawerMain!=null)
                         drawerMain.openDrawer(Gravity.LEFT);
                 }
             });
 
-            button_main_logout = (Button)promptView.findViewById(R.id.button_main_logout);
-            button_main_logout.setOnClickListener(new View.OnClickListener()
+            button_main_search = (Button)findViewById(R.id.button_main_search);
+            button_main_search.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View view)
                 {
-                    SessionInfo.InitLogout();
-                    ReloadUI();
+                    if(editText_main_search_visible)
+                    {
+                        editText_main_search.setVisibility(View.GONE);
+                        editText_main_search_visible = false;
+
+                        Drawable img = getResources().getDrawable(R.drawable.ic_search);
+                        button_main_search.setCompoundDrawablesWithIntrinsicBounds(null, null,img, null);
+                        listView_main_chattitle.setAdapter(new ChatTitleAdapter(getApplicationContext(), listDataChatTitle));
+                    }
+                    else
+                    {
+                        editText_main_search.setVisibility(View.VISIBLE);
+                        editText_main_search_visible = true;
+                        editText_main_search.requestFocus();
+
+                        Drawable img = getResources().getDrawable(R.drawable.ic_close_color);
+                        button_main_search.setCompoundDrawablesWithIntrinsicBounds(null, null,img, null);
+                    }
                 }
             });
+            editText_main_search = (EditText)findViewById(R.id.editText_main_search);
+            editText_main_search.setVisibility((editText_main_search_visible? View.VISIBLE:View.GONE));
+            editText_main_search.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count,
+                                              int after) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if(TextUtils.isEmpty(s))
+                    {
+                        listView_main_chattitle.setAdapter(new ChatTitleAdapter(getApplicationContext(), listDataChatTitle));
+                    }
+                    else
+                    {
+                        List<ChatTitleItem> seachList = ChatTitleAdapter.Search(listDataChatTitle,s.toString());
+                        listView_main_chattitle.setAdapter(new ChatTitleAdapter(getApplicationContext(), seachList));
+                    }
+                }
+            });
+
+            listView_main_chattitle = (ListView) promptView.findViewById(R.id.listView_main_chattitle);
+
+            listView_main_chattitle.setAdapter(new ChatTitleAdapter(getApplicationContext(), listDataChatTitle));
 
         }
         else
@@ -378,6 +449,14 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
         startActivityForResult(intent,intent_result_signup);
     }
+
+    public void Show_Contact(String title, boolean isSelect)
+    {
+        Intent intent = new Intent(MainActivity.this, ContactActivity.class);
+        intent.putExtra("Title", title);
+        intent.putExtra("Select", isSelect);
+        startActivityForResult(intent,intent_result_contact);
+    }
     //--Show intent=====================================
 
     private void Show_ProgressDialog(String message)
@@ -461,7 +540,7 @@ public class MainActivity extends AppCompatActivity
                 Dismiss_ProgressDialog();
                 Link.LogResult(LogTag,error.toString(),"ERR","","");
                 F.ToastLong(getApplicationContext(),L.TransResult(getApplicationContext(), error.toString()));
-                //test
+                //test - de login lam tiep
                 JSONObject jsonObject = F.NewJSONObject("access_token","eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJyb290Iiwic2NvcGUiOlsib3BlbmlkIl0sImV4cCI6MTUyODEyNzQ0OSwiaWF0IjoxNTI4MTI3MTQ5LCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImp0aSI6ImJiYTNmNjFiLTE5NzItNGJkNy1hZmJhLWZlNGExMDJjNzA4NyIsImNsaWVudF9pZCI6IndlYl9hcHAifQ.kdY_PWP1Ny_Uw1hS2ztlf3QILq7doMNQVGX2BE0x6xHn6MFXPZJNWCnNk4jY-xz8ZuhpxC79m9HP1MoWg93VAXJawarbNlelPGXRLpxkdE2kLFlKrnrJ6W1VzNkRuqRNom3aK6emywCwccZ-iMuoEz7r5xZmLMGWy7jxDMaqxgZPJ4dgYkwO-AV-AjmZN_uYObO2e56TZcRcyen3T_ukEGwF_bLH0b76Lctl_e1lqGJKY39fOhh3HoipvmmdA8JhNTTxMubl9gi59T9e9Q8cdpwY7ASRQmGqgkXnYUTAl6TVX63T4fJ4PA-Jw_BhuPFtfh_hSRSxALFd2wS8eVV49w","token_type","bearer","refresh_token","eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJyb290Iiwic2NvcGUiOlsib3BlbmlkIl0sImF0aSI6ImJiYTNmNjFiLTE5NzItNGJkNy1hZmJhLWZlNGExMDJjNzA4NyIsImV4cCI6MTUyODczMTk0OSwiaWF0IjoxNTI4MTI3MTQ5LCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImp0aSI6IjljZDBhMDA3LTZlMmItNDljMi1hOWVlLTkzM2ZmNjAwMmFhZCIsImNsaWVudF9pZCI6IndlYl9hcHAifQ.QxWY69N_BsTFDoOx3sfmmwbMey-3AURWBB3R0tOoFACmR1ruiCA44_AcdhiQ0bdhEytaomcio4ScaQKk9xCr67397kGkXip2AdPetg48Jck9rNDYEcaqbJ5u0T_5y_5SYFuhyyaxB9pfJ7cE08E7ki2EAJCfX9y5f1oCP9Tx39XXQb4u4093EnbGfwL5U4yQQ8NfUIo-VVS5_NVbEeCnI1Wsk8Gj0jxH-TM3Q6d4XUSIR5mH8i7B5fkHPl93o3Si3EtNsE3k3dilctLuyeTlvPF95bnIlhjjBMH761kp8yDRVja_LWacQWFWDQ-4zzLawKda3ydOONVV7_8R8gZVxg","expires_in",299,"scope","openid","iat",1528127149,"jti","bba3f61b-1972-4bd7-afba-fe4a102c7087");
                 SessionInfo.InitLoginValue(jsonObject);
                 ReloadUI();

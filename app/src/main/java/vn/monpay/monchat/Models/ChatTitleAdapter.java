@@ -1,10 +1,13 @@
 package vn.monpay.monchat.Models;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -64,18 +67,15 @@ public class ChatTitleAdapter  extends BaseAdapter {
         List<ChatTitleItem>  resultListData = new ArrayList<ChatTitleItem>();
 
         try {
-            /*
+
             for (ChatTitleItem curObject:listValue
                     ) {
-                if(curObject.getbranchCode().contains(searchValue)||
-                        curObject.getbranchName().contains(searchValue)||
-                        curObject.getbranchAddress().contains(searchValue)||
-                        curObject.getbranchContactPhone().contains(searchValue)||
-                        curObject.getdescription().contains(searchValue)
+                if(curObject.getFullName().contains(searchValue)||
+                        curObject.getLastMessage().contains(searchValue)||curObject.getFullName().contains(searchValue.toUpperCase())||curObject.getFullName().contains(searchValue.toLowerCase())
                         )
                     resultListData.add(curObject);
             }
-            */
+
         } catch (Exception e) {
             //e.printStackTrace();
         }
@@ -100,10 +100,16 @@ public class ChatTitleAdapter  extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewChatTitleItem holder;
         if (convertView == null) {
-            //convertView = layoutInflater.inflate(R.layout.layout_bank_branch_item, null);
+            convertView = layoutInflater.inflate(R.layout.layout_chat_title, null);
             holder = new ViewChatTitleItem();
-            //holder.textViewBankBranchName = (TextView)convertView.findViewById(R.id.textViewBankBranchName);
-            //holder.textViewBankBranchAddress = (TextView)convertView.findViewById(R.id.textViewBankBranchAddress);
+            holder.imageView_chattitle_avatar = (ImageView)convertView.findViewById(R.id.imageView_chattitle_avatar);
+            holder.textView_chattitle_name = (TextView)convertView.findViewById(R.id.textView_chattitle_name);
+            holder.imageView_chattitle_secret = (ImageView)convertView.findViewById(R.id.imageView_chattitle_secret);
+            holder.textView_chattitle_fullname = (TextView)convertView.findViewById(R.id.textView_chattitle_fullname);
+            holder.imageView_chattitle_status = (ImageView)convertView.findViewById(R.id.imageView_chattitle_status);
+            holder.textView_chattitle_time = (TextView)convertView.findViewById(R.id.textView_chattitle_time);
+            holder.textView_chattitle_lastmessage = (TextView)convertView.findViewById(R.id.textView_chattitle_lastmessage);
+
             convertView.setTag(holder);
         }
         else
@@ -112,16 +118,67 @@ public class ChatTitleAdapter  extends BaseAdapter {
         }
 
         ChatTitleItem contactItem = this.listData.get(position);
-        //holder.textViewBankBranchName.setText(contactItem.getbranchName());
-        //holder.textViewBankBranchAddress.setText(contactItem.getbranchAddress());
+        holder.imageView_chattitle_avatar.setImageResource(R.drawable.border_cricle);
+        if(contactItem.getToId()==2018001)
+        {
+            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_g_01);
+            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
+            holder.imageView_chattitle_avatar.setImageBitmap(cbmp);
+        }
+        else if(contactItem.getToId()==1528127143)
+        {
+            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_b_01);
+            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
+            holder.imageView_chattitle_avatar.setImageBitmap(cbmp);
+        }
+        else if(contactItem.getToId()==1528127144)
+        {
+            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_g_02);
+            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
+            holder.imageView_chattitle_avatar.setImageBitmap(cbmp);
+        }
+        else if(contactItem.getToId()==1528127145)
+        {
+            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_b_02);
+            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
+            holder.imageView_chattitle_avatar.setImageBitmap(cbmp);
+        }
+
+        holder.textView_chattitle_name.setText(contactItem.getShortName());
+
+        if(contactItem.getStatus()>0) {
+            holder.imageView_chattitle_secret.setVisibility(View.VISIBLE);
+            holder.imageView_chattitle_secret.setImageResource(R.drawable.ic_menu_group);
+        }
+        else if(contactItem.getIsSecret())
+        {
+            holder.imageView_chattitle_secret.setVisibility(View.VISIBLE);
+            holder.imageView_chattitle_secret.setImageResource(R.drawable.ic_menu_secret);
+        }
+        else  holder.imageView_chattitle_secret.setVisibility(View.GONE);
+
+        holder.textView_chattitle_fullname.setText(contactItem.getFullName());
+        //holder.imageView_chattitle_status.setText(contactItem);
+        holder.textView_chattitle_time.setText(contactItem.getLastTime());
+        holder.textView_chattitle_lastmessage.setText(contactItem.getLastMessage());
+
+        if(contactItem.getIsReceived()&&contactItem.getIsRead())
+            holder.imageView_chattitle_status.setImageResource(R.drawable.ic_done_all);
+        else if(contactItem.getIsReceived())
+            holder.imageView_chattitle_status.setImageResource(R.drawable.ic_done_one);
         return convertView;
     }
 
 
     static class ViewChatTitleItem
     {
-        private TextView textViewBankBranchName;
-        private TextView textViewBankBranchAddress;
+        private ImageView imageView_chattitle_avatar;
+        private TextView textView_chattitle_name;
+        private ImageView imageView_chattitle_secret;
+        private TextView textView_chattitle_fullname;
+        private ImageView imageView_chattitle_status;
+        private TextView textView_chattitle_time;
+        private TextView textView_chattitle_lastmessage;
 
 
     }

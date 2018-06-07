@@ -128,9 +128,6 @@ public class Link {
     }
     public static void LogResult(String functionID,String putData,String resultData, String fromIP, String deviceId)
     {
-        //String link = "http://localhost:8080/viti/Log/SaveLog";
-        //JSONObject jsonObject = F.NewJSONObject("functionID",functionID,"putData",putData,"resultData",resultData,"fromIP",fromIP,"deviceId",deviceId);
-        //String result = httpPost(link,"",jsonObject);
         JSONObject jsonObject = F.NewJSONObject("functionID",functionID,"putData",putData,"resultData",resultData,"fromIP",fromIP,"deviceId",deviceId);
         Log.d(functionID,jsonObject.toString());
     }

@@ -43,5 +43,8 @@
     <string name="txt_invite_friends">Mời bạn bè</string>
     <string name="txt_settings">Cấu hình</string>
     <string name="txt_server_error">Kết nối đến máy chủ bị gián đoạn</string>
+    <string name="txt_enter_search_text">Nhập văn bản tìm kiếm</string>
+    <string name="txt_new_message">Tin nhắn mới</string>
+    <string name="txt_create_new_message">Tạo tin nhắn mới</string>
 
 </resources>

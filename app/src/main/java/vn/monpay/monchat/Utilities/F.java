@@ -1,8 +1,19 @@
 package vn.monpay.monchat.Utilities;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import org.apache.http.conn.ssl.SSLSocketFactory;
@@ -46,7 +57,26 @@ import javax.net.ssl.X509TrustManager;
  * Created by mobilechatsystem@gmail.com on 06/03/2018.
  */
 
+//Cac ham phu tro
+
 public class F {
+
+    //++Layout Function ==================================
+    public static void EndEditing(AppCompatActivity appCompatActivity)
+    {
+        View myIput = appCompatActivity.getCurrentFocus();
+        if (myIput != null) {
+            InputMethodManager imm = (InputMethodManager)appCompatActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(myIput.getWindowToken(), 0);
+        }
+    }
+    public static void EndEditingView(AppCompatActivity appCompatActivity,View view)
+    {
+        InputMethodManager in = (InputMethodManager)appCompatActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+    //--Layout Function ==================================
+
     public static boolean isEmpty(String value) {
         return TextUtils.isEmpty(value) || value==null || value.equals("");
     }
@@ -118,6 +148,17 @@ public class F {
         }
         return "";
     }
+    public static boolean BoolIsNull(Object value) {
+        if (value == null)
+            return false;
+        try {
+            boolean result = Boolean.parseBoolean(value.toString());
+            return result;
+        } catch (Exception ex) {
+            // Handle parse error.
+        }
+        return false;
+    }
     public static Integer IntIsNull(Object value) {
         if (value == null)
             return 0;
@@ -159,6 +200,53 @@ public class F {
     }
 
     //--Toast==================================
+
+    //++Bitmap function =======================
+    public static Bitmap GetBitmapCricleFromBitmap(Bitmap bitmap, int ww, int hh, int borderColor) {
+        try {
+
+            if (bitmap == null)
+                return bitmap;
+            int imgw = bitmap.getWidth();
+            int imgh = bitmap.getHeight();
+            float scalew = (imgw < 1 ? 1 : (float) ((float) ww / (float) imgw));
+            float scaleh = (imgh < 1 ? 1 : (float) ((float) hh / (float) imgh));
+            scalew = Math.max(scalew, scaleh);
+            //scalew = Math.max(scalew,1);
+            imgw = Math.max((int) (imgw * scalew), 50);
+            imgh = Math.max((int) (imgh * scalew), 50);
+
+            bitmap = Bitmap.createScaledBitmap(bitmap, (int) imgw, (int) imgh, true);
+
+            Bitmap output = Bitmap.createBitmap(ww, hh, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(output);
+
+            Paint paint = new Paint();
+            Rect rectSource = new Rect((imgw-ww)/2, (imgh-hh)/2, ww, hh);
+            Rect rect = new Rect(0, 0, ww, hh);
+            RectF rectF = new RectF(rect);
+
+            paint.setAntiAlias(true);
+            canvas.drawARGB(0, 0, 0, 0);
+            paint.setColor(Color.RED);
+            canvas.drawOval(rectF, paint);
+
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+            canvas.drawBitmap(bitmap, rectSource, rect, paint);
+
+            rectF = new RectF(0.5f, 0.5f, ww - 1, hh - 1);
+            paint.setColor(borderColor);
+            paint.setStyle(Paint.Style.STROKE);
+            canvas.drawOval(rectF, paint);
+
+            bitmap.recycle();
+
+            return output;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    //--Bitmap function =======================
 
 
 }

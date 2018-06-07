@@ -15,6 +15,7 @@ import java.util.Locale;
 /**
  * Created by mobilechatsystem@gmail.com on 06/04/2018.
  */
+// Xu ly ngon ngu
 
 public class L {
 

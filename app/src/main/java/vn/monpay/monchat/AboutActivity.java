@@ -34,7 +34,7 @@ public class AboutActivity extends AppCompatActivity {
                 finish();
             }
         });
-        String link_about ="https://monpay.vn/home";
+        String link_about ="https://monpay.vn/about";
 
         webView_about_content.setWebViewClient(new MonChatWebViewClient());
         webView_about_content.getSettings().setJavaScriptEnabled(true);
