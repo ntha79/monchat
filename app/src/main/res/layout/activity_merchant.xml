@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MerchantActivity">
+    <RelativeLayout
+        android:id="@+id/relativeLayout_merchant_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_title"
+        android:background="@color/colorPrimary"
+        >
+
+
+
+        <TextView
+            android:id="@+id/textView_merchant_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_normal"
+            android:gravity="center"
+            android:text="@string/txt_merchant" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/button_merchant_menu"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:background="@null"
+                android:drawableLeft="@drawable/ic_arrow_back"
+                android:paddingLeft="@dimen/padding_all"
+                android:text="" />
+
+            <EditText
+
+                android:id="@+id/editText_merchant_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/border"
+                android:layout_marginLeft="@dimen/border"
+                android:layout_marginRight="@dimen/border"
+                android:layout_marginTop="@dimen/border"
+                android:layout_toLeftOf="@+id/button_merchant_map"
+                android:layout_toRightOf="@+id/button_merchant_menu"
+                android:layout_weight="1"
+                android:background="@drawable/border_roundrect_fill_white"
+                android:ems="10"
+                android:hint="@string/txt_enter_search_text"
+                android:inputType="textPersonName"
+                android:paddingLeft="@dimen/padding_all"
+                android:textSize="@dimen/text_normal"
+                android:visibility="gone" />
+            <Button
+                android:id="@+id/button_merchant_search"
+                android:layout_toLeftOf="@+id/button_merchant_map"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:background="@null"
+                android:drawableRight="@drawable/ic_search"
+                android:paddingRight="@dimen/padding_all"
+                android:text="" />
+
+            <Button
+                android:id="@+id/button_merchant_map"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_weight="0"
+                android:background="@null"
+                android:drawableRight="@drawable/ic_location_white"
+                android:paddingRight="@dimen/padding_all"
+                android:text="" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relativeLayout_merchant_title">
+        <ListView
+            android:id="@+id/listView_merchant_allmerchant"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <fragment
+            android:id="@+id/fragment_merchant_map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+</RelativeLayout>

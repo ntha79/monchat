@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.multidex.MultiDex;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -39,6 +40,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+
+import io.fabric.sdk.android.Fabric;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,7 +69,9 @@ public class MainActivity extends AppCompatActivity
 
     public String LogTag ="MonChat";
     private int intent_result_signup = 1001;
-    private int intent_result_contact = 1001;
+    private int intent_result_contact = 1002;
+    private int intent_result_merchant = 1003;
+
 
     FloatingActionButton fabMain;
     DrawerLayout drawerMain;
@@ -97,7 +104,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MultiDex.install(getApplicationContext());
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Answers(), new Crashlytics());
+        F.CrashlyticsLogUser(this.getLocalClassName());
+
         setContentView(R.layout.activity_main);
 
         L.LoadLanguage(getApplicationContext());
@@ -114,7 +125,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 else
                 {
-                    Show_About();
+                    Show_About("");
                 }
             }
         });
@@ -189,12 +200,14 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_menu_saved_message) {
 
         }
-        else if (id == R.id.nav_menu_call) {
 
-        }
         else if (id == R.id.nav_menu_invite_friends) {
 
         }
+        else if (id == R.id.nav_menu_merchant) {
+            Show_Merchant();
+        }
+
         else if (id == R.id.nav_menu_settings) {
 
         }
@@ -244,9 +257,7 @@ public class MainActivity extends AppCompatActivity
         it_nav_menu_saved_message.setTitle(L.getString(getApplicationContext(),R.string.txt_saved_message));
         //it_nav_menu_saved_message.setEnabled(false);
 
-        MenuItem it_nav_menu_call = menuMain.findItem(R.id.nav_menu_call);
-        it_nav_menu_call.setTitle(L.getString(getApplicationContext(),R.string.txt_calls));
-        //it_nav_menu_call.setEnabled(false);
+
 
         MenuItem it_nav_menu_invite_friends = menuMain.findItem(R.id.nav_menu_invite_friends);
         it_nav_menu_invite_friends.setTitle(L.getString(getApplicationContext(),R.string.txt_invite_friends));
@@ -262,6 +273,10 @@ public class MainActivity extends AppCompatActivity
 
         MenuItem it_nav_menu_logout = menuMain.findItem(R.id.nav_menu_logout);
         it_nav_menu_logout.setTitle(L.getString(getApplicationContext(),R.string.txt_logout));
+        //it_nav_menu_logout.setEnabled(false);
+
+        MenuItem it_nav_menu_merchant = menuMain.findItem(R.id.nav_menu_merchant);
+        it_nav_menu_merchant.setTitle(L.getString(getApplicationContext(),R.string.txt_merchant));
         //it_nav_menu_logout.setEnabled(false);
 
     }
@@ -428,9 +443,10 @@ public class MainActivity extends AppCompatActivity
 
 
     //++Show intent=====================================
-    public void Show_About()
+    public void Show_About(String link)
     {
         Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+        intent.putExtra("Link", link);
         startActivityForResult(intent,0);
     }
     public void Show_Signup()
@@ -456,6 +472,12 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra("Title", title);
         intent.putExtra("Select", isSelect);
         startActivityForResult(intent,intent_result_contact);
+    }
+    public void Show_Merchant()
+    {
+        Intent intent = new Intent(MainActivity.this, MerchantActivity.class);
+        intent.putExtra("Select", false);
+        startActivityForResult(intent,intent_result_merchant);
     }
     //--Show intent=====================================
 

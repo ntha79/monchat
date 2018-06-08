@@ -23,10 +23,14 @@ import vn.monpay.monchat.Models.ChatTitleAdapter;
 import vn.monpay.monchat.Models.ChatTitleItem;
 import vn.monpay.monchat.Models.ContactAdapter;
 import vn.monpay.monchat.Models.ContactItem;
+import vn.monpay.monchat.Models.MerchantItem;
 import vn.monpay.monchat.Utilities.F;
 import vn.monpay.monchat.Utilities.L;
 
 public class ContactActivity extends AppCompatActivity {
+
+    private int intent_result_addContact = 2001;
+    private int intent_result_editContact = 2002;
 
     private String title = "";
     private boolean isSelect = false;
@@ -145,6 +149,9 @@ public class ContactActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 F.EndEditing(ContactActivity.this);
+                Intent intent = new Intent(ContactActivity.this, EditContactActivity.class);
+                //intent.putExtra("Link", link);
+                startActivityForResult(intent,intent_result_addContact);
             }
         });
         listView_contact_chattitle = (ListView)findViewById(R.id.listView_contact_chattitle);
@@ -156,16 +163,22 @@ public class ContactActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id)
             {
-                if(isSelect)
-                {
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra("SELECTITEM","abc");
-                    setResult(RESULT_OK,returnIntent);
-                    finish();
-                }
-                else
-                {
-                    //showDialogUpdate(contactItem.getemail(), contactItem.getloveName(), contactItem.getmobilePhoneToShow(), contactItem.getsoPayId(), contactItem.getfullName());
+                Object o = listView_contact_chattitle.getItemAtPosition(position);
+                ContactItem contactItem = (ContactItem) o;
+                if(contactItem!=null) {
+                    if (isSelect) {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("SELECTITEM", "abc");
+                        setResult(RESULT_OK, returnIntent);
+                        finish();
+                    } else {
+                        Intent intent = new Intent(ContactActivity.this, EditContactActivity.class);
+                        intent.putExtra("baseId", contactItem.getBaseId());
+                        intent.putExtra("firstName", contactItem.getFirstName());
+                        intent.putExtra("lastName", contactItem.getLastName());
+                        intent.putExtra("mobilePhone", contactItem.getMobilePhone());
+                        startActivityForResult(intent,intent_result_editContact);
+                    }
                 }
             }
         });

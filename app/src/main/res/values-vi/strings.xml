@@ -46,5 +46,12 @@
     <string name="txt_enter_search_text">Nhập văn bản tìm kiếm</string>
     <string name="txt_new_message">Tin nhắn mới</string>
     <string name="txt_create_new_message">Tạo tin nhắn mới</string>
+    <string name="txt_merchant">Danh sách cửa hàng</string>
+    <string name="txt_about">Giới thiệu</string>
+    <string name="txt_to_use_this_function_you_need_to_grant_location_permission">Bạn cần cấp quyền truy cập vị trí</string>
+    <string name="txt_first_name">Họ</string>
+    <string name="txt_last_name">Tên</string>
+    <string name="txt_mobile_phone">Mobile phone</string>
+    <string name="txt_save">Ghi</string>
 
 </resources>

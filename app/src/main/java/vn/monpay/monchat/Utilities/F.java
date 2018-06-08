@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
@@ -61,6 +63,13 @@ import javax.net.ssl.X509TrustManager;
 
 public class F {
 
+
+    public static void CrashlyticsLogUser(String localClassName) {
+        Crashlytics.setUserIdentifier("MONCHAT");
+        Crashlytics.setUserEmail("mobilechatsystem@gmail.com");
+        Crashlytics.setUserName(localClassName);
+    }
+
     //++Layout Function ==================================
     public static void EndEditing(AppCompatActivity appCompatActivity)
     {
@@ -80,7 +89,10 @@ public class F {
     public static boolean isEmpty(String value) {
         return TextUtils.isEmpty(value) || value==null || value.equals("");
     }
-
+    public static String NewLine() {
+        return "\n";
+        //return System.getProperty("line.separator");
+    }
     //++Json===================================
     public static JSONObject NewJSONObject(Object... paras) {
         JSONObject obj = new JSONObject();
@@ -185,7 +197,41 @@ public class F {
         return 0;
     }
 
-
+    public static double DoubleIsNull(Object value) {
+        if (value == null)
+            return 0;
+        try {
+            Double result = 0.0;
+            if (value instanceof Double) {
+                result = (Double) value;
+                return result;
+            }
+            if (value instanceof Integer) {
+                result = (Double) value;
+                return result;
+            }
+            if (value instanceof Float) {
+                result = (Double) value;
+                return result;
+            }
+            String strValue = value.toString();
+            if(isEmpty(strValue))
+                return 0;
+            strValue = strValue.replace(",","");
+            result = Double.parseDouble(strValue);
+            strValue = value.toString();
+            if(!strValue.equals("0.0") && !strValue.equals("0") && !strValue.equals("0,0") && result==0)
+            {
+                result = Double.parseDouble(strValue);
+            }
+            return result;
+        } catch (NumberFormatException nfe) {
+            // Handle parse error.
+        } catch (Exception nfe) {
+            return 0;
+        }
+        return 0;
+    }
     //++Toast==================================
     public static void ToastShort(Context context, String message) {
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
@@ -248,5 +294,16 @@ public class F {
     }
     //--Bitmap function =======================
 
-
+    //++Format================================
+    public static String FormatDistance(Number value) {
+        Number vl = value;
+        if (vl.doubleValue() < 1000.0) {
+            return "" + vl.intValue() + " m";
+        } else {
+            Integer ii = ((Integer) vl.intValue()) / 10;
+            Double db = ii.doubleValue() / 100;
+            return db.toString() + " km";
+        }
+    }
+    //--Format================================
 }

@@ -123,19 +123,37 @@ public class ContactAdapter  extends BaseAdapter {
             Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
             holder.imageView_contactitem_avatar.setImageBitmap(cbmp);
         }
-        else if(contactItem.getBaseId()==1528127143)
-        {
-            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_b_01);
-            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
-            holder.imageView_contactitem_avatar.setImageBitmap(cbmp);
-        }
         else if(contactItem.getBaseId()==2018002)
         {
             Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_g_02);
             Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
             holder.imageView_contactitem_avatar.setImageBitmap(cbmp);
         }
-        else if(contactItem.getBaseId()==1528127145)
+        else if(contactItem.getBaseId()==2018003)
+        {
+            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_g_03);
+            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
+            holder.imageView_contactitem_avatar.setImageBitmap(cbmp);
+        }
+        else if(contactItem.getBaseId()==2018004)
+        {
+            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_g_04);
+            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
+            holder.imageView_contactitem_avatar.setImageBitmap(cbmp);
+        }
+        else if(contactItem.getBaseId()==2018005)
+        {
+            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_g_05);
+            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
+            holder.imageView_contactitem_avatar.setImageBitmap(cbmp);
+        }
+        else if(contactItem.getBaseId()==2018018)
+        {
+            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_b_01);
+            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
+            holder.imageView_contactitem_avatar.setImageBitmap(cbmp);
+        }
+        else if(contactItem.getBaseId()==2018046)
         {
             Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_b_02);
             Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);

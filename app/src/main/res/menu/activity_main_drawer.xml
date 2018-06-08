@@ -30,16 +30,19 @@
                 android:icon="@drawable/ic_menu_saved_message"
                 android:title="@string/txt_saved_message" />
             <item
-                android:id="@+id/nav_menu_call"
-                android:icon="@drawable/ic_menu_call"
-                android:title="@string/txt_calls" />
-            <item
                 android:id="@+id/nav_menu_invite_friends"
                 android:icon="@drawable/ic_menu_invite"
                 android:title="@string/txt_invite_friends" />
     </group>
     <group android:checkableBehavior="none"
         android:id="@+id/menu_group_3">
+        <item
+            android:id="@+id/nav_menu_merchant"
+            android:icon="@drawable/ic_menu_merchant"
+            android:title="@string/txt_merchant" />
+    </group>
+    <group android:checkableBehavior="none"
+        android:id="@+id/menu_group_4">
         <item
             android:id="@+id/nav_menu_settings"
             android:icon="@drawable/ic_menu_settings"
@@ -51,7 +54,7 @@
 
     </group>
     <group android:checkableBehavior="none"
-        android:id="@+id/menu_group_4">
+        android:id="@+id/menu_group_5">
         <item
             android:id="@+id/nav_menu_logout"
             android:icon="@drawable/ic_menu_logout"

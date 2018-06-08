@@ -11,6 +11,8 @@ import vn.monpay.monchat.Utilities.F;
 
 public class SessionInfo
 {
+    public static int CameraZoom = 16;
+
     private static  String userName = "";
     private static  String access_token = "";			//Y nghia:
     private static  String token_type = "";			//Y nghia:

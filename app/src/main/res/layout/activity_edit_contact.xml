@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditContactActivity">
+    <RelativeLayout
+        android:id="@+id/relativeLayout_editcontact_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_title"
+        android:background="@color/colorPrimary"
+        >
+
+
+
+        <TextView
+            android:id="@+id/textView_editcontact_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_normal"
+            android:gravity="center"
+            android:text="@string/txt_contact" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/button_editcontact_menu"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:background="@null"
+                android:drawableLeft="@drawable/ic_arrow_back"
+                android:paddingLeft="@dimen/padding_all"
+                android:text="" />
+
+            <Button
+                android:layout_margin="3dp"
+                android:id="@+id/button_editcontact_add"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_weight="0"
+                android:background="@drawable/border_roundrect_w_fill_color"
+                android:textAllCaps="false"
+                android:textSize="@dimen/text_normal"
+                android:textColor="@android:color/white"
+                android:drawableRight="@drawable/ic_done_one_white"
+                android:paddingRight="@dimen/padding_all"
+                android:text="@string/txt_save" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relativeLayout_editcontact_title"
+        android:orientation="horizontal">
+
+
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <ImageView
+                android:id="@+id/imageView_editcontact_avatar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/border_cricle" />
+
+            <TextView
+                android:id="@+id/textView_editcontact_name"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_largex"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_all">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_title"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editText_editcontact_firstname"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:hint="@string/txt_first_name"
+                    android:text=""
+                    android:background="@null"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_normal" />
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/darker_gray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_title"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editText_editcontact_lastname"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:hint="@string/txt_last_name"
+                    android:text=""
+                    android:background="@null"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_normal" />
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/darker_gray"/>s
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_title"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:text="@string/txt_mobile_phone"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_normal" />
+
+                <Button
+                    android:id="@+id/button_editcontact_country"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawableRight="@drawable/ic_chevron_right_grey"
+                    android:text="Việt Nam" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/darker_gray"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_title"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_editcontact_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="+84"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_normal" />
+
+                <EditText
+                    android:id="@+id/editText_editcontact_mobilephone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:hint="@string/txt_mobile_phone"
+                    android:text=""
+                    android:background="@null"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_normal" />
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@android:color/darker_gray"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

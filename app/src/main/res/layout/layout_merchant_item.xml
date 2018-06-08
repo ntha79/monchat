@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/padding_all"
+    android:paddingTop="@dimen/padding_all"
+    android:paddingBottom="@dimen/padding_all">
+    <RelativeLayout
+        android:id="@+id/relativeLayout_merchant_avatar"
+        android:layout_width="65dp"
+        android:layout_height="65dp">
+        <ImageView
+            android:id="@+id/imageView_merchant_avatar"
+            android:layout_margin="@dimen/padding_all"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_merchant_default" />
+
+        <TextView
+            android:id="@+id/textView_merchant_discount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/text_large"
+            android:textColor="@android:color/holo_red_light"
+            android:text="" />
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/relativeLayout_merchant_avatar"
+        android:layout_toEndOf="@+id/relativeLayout_merchant_avatar">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="Monchat"
+                android:layout_width="wrap_content"
+                android:id="@+id/textView_merchant_fullname"
+
+                android:textSize="@dimen/text_normal"
+                android:paddingLeft="10dp"
+                android:textStyle="normal|bold"
+                android:textColor="@android:color/black"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:layout_height="25dp" />
+
+            <TextView
+                android:id="@+id/textView_merchant_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="end"
+                android:layout_weight="0"
+                android:paddingRight="5dp"
+                android:text="3.5km"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/text_small" />
+
+        </LinearLayout>
+        <TextView
+            android:text="29 láng hạ"
+            android:layout_width="match_parent"
+            android:id="@+id/textView_merchant_address"
+            android:textSize="@dimen/text_small"
+            android:paddingLeft="10dp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_height="20dp"
+            android:drawableLeft="@drawable/ic_location_grey" />
+        <TextView
+            android:text="84 123456789"
+            android:layout_width="match_parent"
+            android:id="@+id/textView_merchant_mobilePhone"
+            android:textSize="@dimen/text_small"
+            android:paddingLeft="10dp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_classification" />
+    </LinearLayout>
+
+</RelativeLayout>

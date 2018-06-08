@@ -45,4 +45,12 @@
     <string name="txt_enter_search_text">Enter search text</string>
     <string name="txt_new_message">New message</string>
     <string name="txt_create_new_message">Create new message</string>
+    <string name="txt_merchant">Merchant</string>
+    <string name="txt_about">About</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="txt_to_use_this_function_you_need_to_grant_location_permission">To use this function you need to grant location permission</string>
+    <string name="txt_first_name">First name</string>
+    <string name="txt_last_name">Last name</string>
+    <string name="txt_mobile_phone">Mobile phone</string>
+    <string name="txt_save">Save</string>
 </resources>
