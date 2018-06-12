@@ -6,6 +6,7 @@ import android.util.Log;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.StringEntity;
@@ -35,6 +36,7 @@ public class Link {
     public static final String link_public = "http://35.198.246.74:8080/";//http://35.198.245.187:8080/";//auth/login
 
     public static final String link_auth_login = "auth/login";
+    public static final String link_uaa_api_users = "uaa/api/users";
 
     public static String getLink(String function)
     {
@@ -111,6 +113,35 @@ public class Link {
                 entity.setContentEncoding("UTF-8");
                 httppost.setEntity(entity);
             }
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            xmlString = httpClient.execute(httppost, responseHandler);
+        } catch (UnsupportedEncodingException e) {
+            xmlString = "";
+            ////e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            xmlString ="";
+            ////e.printStackTrace();
+        } catch (IOException e) {
+            xmlString = "";
+            //e.printStackTrace();
+        }
+        return xmlString;
+    }
+    public static String httpGet(String xmlUrl, String accessToken) {
+        if(TextUtils.isEmpty(xmlUrl))
+            return "";
+        String xmlString = null;
+        try {
+            disableSSLCertificateChecking();
+            HttpClient httpClient = getNewHttpClient();
+            HttpGet httppost = new HttpGet(xmlUrl);
+            httppost.setHeader("Accept", "application/json");
+            httppost.setHeader("Content-type", "application/json");
+            if (!TextUtils.isEmpty(accessToken) && accessToken != null && !accessToken.equals("")) {
+                httppost.setHeader("Authorization", "Bearer " + accessToken);
+            }
+
 
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             xmlString = httpClient.execute(httppost, responseHandler);

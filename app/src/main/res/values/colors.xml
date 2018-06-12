@@ -5,4 +5,5 @@
     <color name="colorAccent">#8CC63E</color>
     <color name="facebook">#3C66C4</color>
     <color name="google">#CF4332</color>
+    <color name="light_transparent">#80808080</color>
 </resources>

@@ -47,6 +47,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -304,6 +309,27 @@ public class F {
             Double db = ii.doubleValue() / 100;
             return db.toString() + " km";
         }
+    }
+    public static String FormatTopic(String friend1, String friend2)
+    {
+        List<String> list = new ArrayList<>();
+        list.add(friend1) ;
+        list.add(friend2) ;
+        Collections.sort(list);
+        String result = list.get(0).toString()  +"#"+ list.get(1).toString() ;
+        return result;
+    }
+    public static String DateToStringMMM_dd_yyyy_HH_mm_ss(Date value) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
+        return sdf.format(value);
+    }
+    public static String DateToStringHH_mm_ss(Date value) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        return sdf.format(value);
+    }
+    public static String DateToStringHH_mm(Date value) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        return sdf.format(value);
     }
     //--Format================================
 }

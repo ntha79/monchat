@@ -19,6 +19,7 @@ import java.util.List;
 
 import vn.monpay.monchat.R;
 import vn.monpay.monchat.Utilities.F;
+import vn.monpay.monchat.Utilities.TestAutoMessage;
 
 public class ChatTitleAdapter  extends BaseAdapter {
 
@@ -119,30 +120,9 @@ public class ChatTitleAdapter  extends BaseAdapter {
 
         ChatTitleItem contactItem = this.listData.get(position);
         holder.imageView_chattitle_avatar.setImageResource(R.drawable.border_cricle);
-        if(contactItem.getToId()==2018001)
-        {
-            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_g_01);
-            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
-            holder.imageView_chattitle_avatar.setImageBitmap(cbmp);
-        }
-        else if(contactItem.getToId()==1528127143)
-        {
-            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_b_01);
-            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
-            holder.imageView_chattitle_avatar.setImageBitmap(cbmp);
-        }
-        else if(contactItem.getToId()==1528127144)
-        {
-            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_g_02);
-            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
-            holder.imageView_chattitle_avatar.setImageBitmap(cbmp);
-        }
-        else if(contactItem.getToId()==1528127145)
-        {
-            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_b_02);
-            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
-            holder.imageView_chattitle_avatar.setImageBitmap(cbmp);
-        }
+        Bitmap bmp = TestAutoMessage.getBitmapAvatar(context,contactItem.getToId());
+        if(bmp!=null)
+            holder.imageView_chattitle_avatar.setImageBitmap(bmp);
 
         holder.textView_chattitle_name.setText(contactItem.getShortName());
 

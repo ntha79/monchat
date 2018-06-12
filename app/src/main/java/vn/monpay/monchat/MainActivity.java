@@ -27,6 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -38,16 +39,20 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 
 import io.fabric.sdk.android.Fabric;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -56,6 +61,7 @@ import java.util.Map;
 import vn.monpay.monchat.API.Link;
 import vn.monpay.monchat.Models.ChatTitleAdapter;
 import vn.monpay.monchat.Models.ChatTitleItem;
+import vn.monpay.monchat.Models.ContactItem;
 import vn.monpay.monchat.Utilities.F;
 import vn.monpay.monchat.Utilities.L;
 import vn.monpay.monchat.Utilities.Token;
@@ -67,10 +73,12 @@ import vn.monpay.monchat.Utilities.VolleySingleton;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static MainActivity openActivity;
     public String LogTag ="MonChat";
     private int intent_result_signup = 1001;
-    private int intent_result_contact = 1002;
-    private int intent_result_merchant = 1003;
+    private int intent_result_contact_show = 1002;
+    private int intent_result_contact_message = 1003;
+    private int intent_result_merchant = 1004;
 
 
     FloatingActionButton fabMain;
@@ -101,7 +109,36 @@ public class MainActivity extends AppCompatActivity
     //--main===============================
 
     List<ChatTitleItem> listDataChatTitle = new ArrayList<>();
+    ChatTitleAdapter chatTitleAdapter;
 
+    private void LoadDemoData()
+    {
+        ContactItem.listDataContactItem = ContactItem.GetListDemo();
+    }
+
+    public void SetChatTitle(int fromIdValue, int toIdValue,String fromFullNameValue, String toFullNameValue,  String messageValue1)
+    {
+        boolean isExits = false;
+        String code = F.FormatTopic(""+fromIdValue,""+toIdValue);
+        for (ChatTitleItem obj: listDataChatTitle)
+        {
+            if(obj.getOwnerId()==SessionInfo.getOwnerId() && obj.getCode().equals(code))
+            {
+                isExits = true;
+                obj.setLastMessage(messageValue1);
+                obj.setLastTime(F.DateToStringHH_mm(new Date()));
+            }
+        }
+        if(!isExits)
+        {
+            String fullName =fromFullNameValue;
+            if(fromIdValue==SessionInfo.getOwnerId())
+                fullName = toFullNameValue;
+            ChatTitleItem it = new ChatTitleItem(SessionInfo.getOwnerId(),fromIdValue,toIdValue,code,fullName,true,0,messageValue1,F.DateToStringHH_mm(new Date()),true,true,F.DateToStringHH_mm(new Date()),F.DateToStringHH_mm(new Date()));
+            listDataChatTitle.add(it);
+        }
+        chatTitleAdapter.notifyDataSetChanged();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MultiDex.install(getApplicationContext());
@@ -111,6 +148,9 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
 
+        openActivity = this;
+        LoadDemoData();
+
         L.LoadLanguage(getApplicationContext());
         L.forceLocale(getApplicationContext(),"");
 
@@ -119,6 +159,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 if(SessionInfo.isLogin()) {
+                    //GetListUsers();
                     Show_Contact(L.getString(getApplicationContext(),R.string.txt_create_new_message),true);
                     //Snackbar.make(view, "New message...", Snackbar.LENGTH_LONG)
                     //        .setAction("Action", null).show();
@@ -145,6 +186,31 @@ public class MainActivity extends AppCompatActivity
         ReloadUI();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == intent_result_contact_message && resultCode == RESULT_OK && data != null)
+        {
+            Bundle MBuddle = data.getExtras();
+            if (MBuddle != null && MBuddle.containsKey("SELECTITEM"))
+            {
+                String SELECTITEM = MBuddle.getString("SELECTITEM");
+                ContactItem contactItem = new ContactItem(SELECTITEM);
+                Show_ChatPToP(contactItem.getFullName(),contactItem.getId());
+            }
+        }
+        if (requestCode == intent_result_contact_show && resultCode == RESULT_OK && data != null)
+        {
+            Bundle MBuddle = data.getExtras();
+            if (MBuddle != null && MBuddle.containsKey("SELECTITEM"))
+            {
+                String SELECTITEM = MBuddle.getString("SELECTITEM");
+                ContactItem contactItem = new ContactItem(SELECTITEM);
+                Show_ChatPToP(contactItem.getFullName(),contactItem.getId());
+            }
+        }
+
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -189,7 +255,7 @@ public class MainActivity extends AppCompatActivity
 
         }
         else if (id == R.id.nav_menu_new_secret_chat) {
-
+            Show_Contact(L.getString(getApplicationContext(),R.string.txt_create_new_message),true);
         }
         else if (id == R.id.nav_menu_new_chanel) {
 
@@ -202,7 +268,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         else if (id == R.id.nav_menu_invite_friends) {
-
+            Show_Share();
         }
         else if (id == R.id.nav_menu_merchant) {
             Show_Merchant();
@@ -319,7 +385,8 @@ public class MainActivity extends AppCompatActivity
 
                         Drawable img = getResources().getDrawable(R.drawable.ic_search);
                         button_main_search.setCompoundDrawablesWithIntrinsicBounds(null, null,img, null);
-                        listView_main_chattitle.setAdapter(new ChatTitleAdapter(getApplicationContext(), listDataChatTitle));
+                        chatTitleAdapter = new ChatTitleAdapter(getApplicationContext(), listDataChatTitle);
+                        listView_main_chattitle.setAdapter(chatTitleAdapter);
                     }
                     else
                     {
@@ -353,7 +420,8 @@ public class MainActivity extends AppCompatActivity
                 public void afterTextChanged(Editable s) {
                     if(TextUtils.isEmpty(s))
                     {
-                        listView_main_chattitle.setAdapter(new ChatTitleAdapter(getApplicationContext(), listDataChatTitle));
+                        chatTitleAdapter = new ChatTitleAdapter(getApplicationContext(), listDataChatTitle);
+                        listView_main_chattitle.setAdapter(chatTitleAdapter);
                     }
                     else
                     {
@@ -364,8 +432,20 @@ public class MainActivity extends AppCompatActivity
             });
 
             listView_main_chattitle = (ListView) promptView.findViewById(R.id.listView_main_chattitle);
+            listView_main_chattitle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            listView_main_chattitle.setAdapter(new ChatTitleAdapter(getApplicationContext(), listDataChatTitle));
+            @Override
+            public void onItemClick(AdapterView<?> a, View v, int position, long id)
+            {
+                Object o = listView_main_chattitle.getItemAtPosition(position);
+                ChatTitleItem contactItem = (ChatTitleItem) o;
+                if(contactItem!=null) {
+                    Show_ChatPToP(contactItem.getFullName(), contactItem.getToId());
+                }
+            }
+        });
+            chatTitleAdapter = new ChatTitleAdapter(getApplicationContext(), listDataChatTitle);
+            listView_main_chattitle.setAdapter(chatTitleAdapter);
 
         }
         else
@@ -443,6 +523,14 @@ public class MainActivity extends AppCompatActivity
 
 
     //++Show intent=====================================
+    public  void Show_Share()
+    {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT,"MonChat - Ứng dụng chát tuyệt vời, Bạn tải ứng dụng tại https://monpay.vn nhé");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "MonChat");
+        startActivity(Intent.createChooser(shareIntent,  L.getString(getApplicationContext(),R.string.txt_share_monchat)));
+    }
     public void Show_About(String link)
     {
         Intent intent = new Intent(MainActivity.this, AboutActivity.class);
@@ -471,7 +559,15 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(MainActivity.this, ContactActivity.class);
         intent.putExtra("Title", title);
         intent.putExtra("Select", isSelect);
-        startActivityForResult(intent,intent_result_contact);
+        startActivityForResult(intent,(isSelect? intent_result_contact_message:intent_result_contact_show));
+    }
+
+    public void Show_ChatPToP(String friendFullName, int friendId)
+    {
+        Intent intent = new Intent(MainActivity.this, ChatPToPActivity.class);
+        intent.putExtra("friendFullName", friendFullName);
+        intent.putExtra("friendId", friendId);
+        startActivityForResult(intent,0);
     }
     public void Show_Merchant()
     {
@@ -583,4 +679,44 @@ public class MainActivity extends AppCompatActivity
         SessionInfo.InitLogout();
         ReloadUI();
     }
+
+
+    public void GetListUsers() {
+
+        // Showing progress dialog at user registration time.
+        Show_ProgressDialog(L.getString(getApplicationContext(),R.string.txt_please_wait));
+        VolleySingleton volleySingleton = VolleySingleton.getInstance(getApplicationContext());
+
+
+        RequestQueue queue = volleySingleton.getRequestQueue();
+
+        /*Post data*/
+        JSONArray jsonObject = new JSONArray();
+        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.GET, Link.getLink(Link.link_uaa_api_users), jsonObject, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                Link.LogResult(LogTag,response.toString(),"OK","","");
+                Dismiss_ProgressDialog();
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Dismiss_ProgressDialog();
+                Link.LogResult(LogTag,error.toString(),"ERR","","");
+                F.ToastLong(getApplicationContext(),L.TransResult(getApplicationContext(), error.toString()));
+
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return Token.getHeaders_BearerToken();
+            }
+        };
+        queue.add(jsonObjectRequest);
+    }
+
 }

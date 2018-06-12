@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:top="@dimen/border_one_hide"
+        android:right="@dimen/border_one_hide"
+        android:left="@dimen/border_one_hide">
+        <shape android:shape="rectangle" >
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="@dimen/border_one"
+                android:color="@android:color/darker_gray" />
+        </shape>
+    </item>
+</layer-list>

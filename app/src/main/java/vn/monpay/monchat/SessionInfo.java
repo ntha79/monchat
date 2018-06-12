@@ -22,6 +22,9 @@ public class SessionInfo
     private static  int iat = 0;			//Y nghia:
     private static  String jti = "";			//Y nghia:
 
+    private static  int ownerId = 6;			//test
+    private static  String fullName = "Mobilechat";			//test
+
     //===========================
     public static boolean isLogin()
     {
@@ -80,5 +83,12 @@ public class SessionInfo
     public static  void setIat(int  value){ iat = value;}
     public static  String getJti(){ return jti;}
     public static  void setJti(String  value){ jti = value;}
+
+
+    public static int getOwnerId(){ return ownerId;}
+    public static void setOwnerId(int  value){ ownerId = value;}
+
+    public static String getFullName(){ return fullName;}
+    public static void setFullName(String  value){ fullName = value;}
 
 }

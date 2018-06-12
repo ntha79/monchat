@@ -44,7 +44,7 @@ public class ContactActivity extends AppCompatActivity {
     private ListView listView_contact_chattitle;
 
     private boolean editText_contact_search_visible = false;
-    private List<ContactItem> listDataContactItem= new ArrayList<>();
+    //private List<ContactItem> listDataContactItem= new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +66,7 @@ public class ContactActivity extends AppCompatActivity {
             }
         }
 
-        listDataContactItem = ContactItem.GetListDemo();
+        //listDataContactItem = ContactItem.GetListDemo();
         relativeLayout_contact_title = (RelativeLayout)findViewById(R.id.relativeLayout_contact_title);
 
 
@@ -105,11 +105,11 @@ public class ContactActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if(TextUtils.isEmpty(s))
                 {
-                    listView_contact_chattitle.setAdapter(new ContactAdapter(getApplicationContext(), listDataContactItem));
+                    listView_contact_chattitle.setAdapter(new ContactAdapter(getApplicationContext(), ContactItem.listDataContactItem));
                 }
                 else
                 {
-                    List<ContactItem> seachList = ContactAdapter.Search(listDataContactItem,s.toString());
+                    List<ContactItem> seachList = ContactAdapter.Search(ContactItem.listDataContactItem,s.toString());
                     listView_contact_chattitle.setAdapter(new ContactAdapter(getApplicationContext(), seachList));
                 }
             }
@@ -129,7 +129,7 @@ public class ContactActivity extends AppCompatActivity {
 
                     Drawable img = getResources().getDrawable(R.drawable.ic_search);
                     button_contact_search.setCompoundDrawablesWithIntrinsicBounds(null, null,img, null);
-                    listView_contact_chattitle.setAdapter(new ContactAdapter(getApplicationContext(), listDataContactItem));
+                    listView_contact_chattitle.setAdapter(new ContactAdapter(getApplicationContext(), ContactItem.listDataContactItem));
                 }
                 else
                 {
@@ -156,7 +156,7 @@ public class ContactActivity extends AppCompatActivity {
         });
         listView_contact_chattitle = (ListView)findViewById(R.id.listView_contact_chattitle);
 
-        listView_contact_chattitle.setAdapter(new ContactAdapter(getApplicationContext(), listDataContactItem));
+        listView_contact_chattitle.setAdapter(new ContactAdapter(getApplicationContext(), ContactItem.listDataContactItem));
 
         listView_contact_chattitle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -168,19 +168,45 @@ public class ContactActivity extends AppCompatActivity {
                 if(contactItem!=null) {
                     if (isSelect) {
                         Intent returnIntent = new Intent();
-                        returnIntent.putExtra("SELECTITEM", "abc");
+                        returnIntent.putExtra("SELECTITEM", contactItem.getJSON());
                         setResult(RESULT_OK, returnIntent);
                         finish();
                     } else {
                         Intent intent = new Intent(ContactActivity.this, EditContactActivity.class);
-                        intent.putExtra("baseId", contactItem.getBaseId());
+                        intent.putExtra("baseId", contactItem.getId());
                         intent.putExtra("firstName", contactItem.getFirstName());
                         intent.putExtra("lastName", contactItem.getLastName());
                         intent.putExtra("mobilePhone", contactItem.getMobilePhone());
+                        intent.putExtra("email", contactItem.getEmail());
                         startActivityForResult(intent,intent_result_editContact);
                     }
                 }
             }
         });
+        listView_contact_chattitle.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            public boolean onItemLongClick(AdapterView<?> a, View v, int position, long id)
+            {
+                Object o = listView_contact_chattitle.getItemAtPosition(position);
+                ContactItem contactItem = (ContactItem) o;
+                if(contactItem!=null) {
+
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("SELECTITEM", contactItem.getJSON());
+                        setResult(RESULT_OK, returnIntent);
+                        finish();
+
+                }
+                return true;
+            }
+        });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == intent_result_addContact||requestCode == intent_result_editContact)
+        {
+            listView_contact_chattitle.setAdapter(new ContactAdapter(getApplicationContext(), ContactItem.listDataContactItem));
+        }
     }
 }

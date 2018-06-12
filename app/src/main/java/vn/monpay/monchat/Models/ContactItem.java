@@ -4,78 +4,100 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import vn.monpay.monchat.SessionInfo;
 import vn.monpay.monchat.Utilities.F;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.util.ArrayList;
-import java.util.List;
 public class ContactItem
 {
-    private int baseId = 0;			//Y nghia: 
-    private String fullName = "";			//Y nghia: 
+    private int ownerId = 0;			//Y nghia: 
+    private int id = 0;			//Y nghia: 
+    private String login = "";			//Y nghia: 
     private String firstName = "";			//Y nghia: 
     private String lastName = "";			//Y nghia: 
-    private String lastMessage = "";			//Y nghia: 
+    private String email = "";			//Y nghia: 
+    private String imageUrl = "";			//Y nghia: 
+    private String fullName = "";			//Y nghia: 
     private String mobilePhone = "";			//Y nghia: 
     private int status = 0;			//Y nghia: 
     private String note = "";			//Y nghia: 
+    private String lastMessage = "";			//Y nghia: 
 
-    public ContactItem( int baseIdValue,  String firstNameValue, String lastNameValue, String lastMessageValue, String mobilePhoneValue, int statusValue, String noteValue)
+    public ContactItem( int ownerIdValue, int idValue, String loginValue,
+                        String firstNameValue, String lastNameValue, String emailValue,
+                        String imageUrlValue, String fullNameValue, String mobilePhoneValue,
+                        int statusValue, String noteValue, String lastMessageValue)
     {
 
-        baseId = baseIdValue;
+        ownerId = ownerIdValue;
+        id = idValue;
+        login = loginValue;
         firstName = firstNameValue;
         lastName = lastNameValue;
-        lastMessage = lastMessageValue;
+        email = emailValue;
+        imageUrl = imageUrlValue;
+        fullName = fullNameValue;
         mobilePhone = mobilePhoneValue;
         status = statusValue;
         note = noteValue;
-        fullName = firstName;
-        if(F.isEmpty(fullName))
-            fullName ="";
-        if(!F.isEmpty(lastName))
-            fullName = fullName+ " "+lastName;
+        lastMessage = lastMessageValue;
+
+
+        if(F.isEmpty(fullName)) {
+            fullName = firstName;
+            if (!F.isEmpty(lastName))
+                fullName = fullName + " " + lastName;
+        }
     }
 
     public ContactItem()
     {
 
-        baseId = 0;
-        fullName = "";
+        ownerId = 0;
+        id = 0;
+        login = "";
         firstName = "";
         lastName = "";
-        lastMessage = "";
+        email = "";
+        imageUrl = "";
+        fullName = "";
         mobilePhone = "";
         status = 0;
         note = "";
+        lastMessage = "";
     }
 
     public ContactItem(String JSONString)
     {
 
-        baseId = 0;
-        fullName = "";
+        ownerId = 0;
+        id = 0;
+        login = "";
         firstName = "";
         lastName = "";
-        lastMessage = "";
+        email = "";
+        imageUrl = "";
+        fullName = "";
         mobilePhone = "";
         status = 0;
         note = "";
+        lastMessage = "";
         try {
             JSONObject obj = new JSONObject(JSONString);
 
-            baseId = F.IntIsNull(obj.getInt("baseId"));
-            fullName = F.StringIsNull(obj.getString("fullName"));
+            ownerId = F.IntIsNull(obj.getInt("ownerId"));
+            id = F.IntIsNull(obj.getInt("id"));
+            login = F.StringIsNull(obj.getString("login"));
             firstName = F.StringIsNull(obj.getString("firstName"));
             lastName = F.StringIsNull(obj.getString("lastName"));
-            lastMessage = F.StringIsNull(obj.getString("lastMessage"));
+            email = F.StringIsNull(obj.getString("email"));
+            imageUrl = F.StringIsNull(obj.getString("imageUrl"));
+            fullName = F.StringIsNull(obj.getString("fullName"));
             mobilePhone = F.StringIsNull(obj.getString("mobilePhone"));
             status = F.IntIsNull(obj.getInt("status"));
             note = F.StringIsNull(obj.getString("note"));
+            lastMessage = F.StringIsNull(obj.getString("lastMessage"));
         } catch (JSONException e) {}
 
     }
@@ -103,17 +125,24 @@ public class ContactItem
         }
         return listData;
     }
-    public int getBaseId(){ return baseId;}
-    public String getBaseIdString(){ return "" + baseId;}
-    public void setBaseId(int  baseId){ this.baseId = baseId;}
-    public String getFullName(){ return fullName;}
-    public void setFullName(String  fullName){ this.fullName = fullName;}
+    public int getOwnerId(){ return ownerId;}
+    public String getOwnerIdString(){ return "" + ownerId;}
+    public void setOwnerId(int  ownerId){ this.ownerId = ownerId;}
+    public int getId(){ return id;}
+    public String getIdString(){ return "" + id;}
+    public void setId(int  id){ this.id = id;}
+    public String getLogin(){ return login;}
+    public void setLogin(String  login){ this.login = login;}
     public String getFirstName(){ return firstName;}
     public void setFirstName(String  firstName){ this.firstName = firstName;}
     public String getLastName(){ return lastName;}
     public void setLastName(String  lastName){ this.lastName = lastName;}
-    public String getLastMessage(){ return lastMessage;}
-    public void setLastMessage(String  lastMessage){ this.lastMessage = lastMessage;}
+    public String getEmail(){ return email;}
+    public void setEmail(String  email){ this.email = email;}
+    public String getImageUrl(){ return imageUrl;}
+    public void setImageUrl(String  imageUrl){ this.imageUrl = imageUrl;}
+    public String getFullName(){ return fullName;}
+    public void setFullName(String  fullName){ this.fullName = fullName;}
     public String getMobilePhone(){ return mobilePhone;}
     public void setMobilePhone(String  mobilePhone){ this.mobilePhone = mobilePhone;}
     public int getStatus(){ return status;}
@@ -121,60 +150,109 @@ public class ContactItem
     public void setStatus(int  status){ this.status = status;}
     public String getNote(){ return note;}
     public void setNote(String  note){ this.note = note;}
+    public String getLastMessage(){ return lastMessage;}
+    public void setLastMessage(String  lastMessage){ this.lastMessage = lastMessage;}
 
+    public String getShowName(){
+        String fullName1 = firstName;
+        if (!F.isEmpty(lastName))
+            fullName1 = fullName1 + " " + lastName;
+        return fullName1;
+    }
 
     public String getJSON()
     {
         JSONObject object = new JSONObject();
         try {
 
-            object.put("baseId",baseId);
-            object.put("fullName",fullName);
+            object.put("ownerId",ownerId);
+            object.put("id",id);
+            object.put("login",login);
             object.put("firstName",firstName);
             object.put("lastName",lastName);
-            object.put("lastMessage",lastMessage);
+            object.put("email",email);
+            object.put("imageUrl",imageUrl);
+            object.put("fullName",fullName);
             object.put("mobilePhone",mobilePhone);
             object.put("status",status);
-            object.put("note",note);}
+            object.put("note",note);
+            object.put("lastMessage",lastMessage);}
         catch (JSONException e) {
             e.printStackTrace();
         }
         return object.toString();
     }
-
     public String getShortName(){ return fullName.substring(0,2).toUpperCase();}
 
-    
+    public static List<ContactItem> listDataContactItem = new ArrayList<>();
+
     public static List<ContactItem> GetListDemo()
     {
 
         List<ContactItem> listData = new ArrayList<ContactItem>();
-        ContactItem it2018001= new ContactItem(2018001,"Vũ Thị","Lan Anh","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018001);
-        ContactItem it2018002= new ContactItem(2018002,"Trần Thị","Vân Anh","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018002);
-        ContactItem it2018003= new ContactItem(2018003,"Hoàng Ngọc","Ánh","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018003);
-        ContactItem it2018004= new ContactItem(2018004,"Đặng Thị","Đạt","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018004);
-        ContactItem it2018005= new ContactItem(2018005,"Phạm Thị","Kim Diệu","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018005);
-        ContactItem it2018006= new ContactItem(2018006,"Lưu Thùy","Dung","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018006);
-        ContactItem it2018007= new ContactItem(2018007,"Ngô Thị","Thùy Dương","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018007);
-        ContactItem it2018008= new ContactItem(2018008,"Vũ Thị","Thu Hà","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018008);
-        ContactItem it2018009= new ContactItem(2018009,"Vũ Thị","Hạnh","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018009);
-        ContactItem it2018010= new ContactItem(2018010,"Nông Thị","Hương","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018010);
-        ContactItem it2018011= new ContactItem(2018011,"Đỗ Thị","Thu Huyền","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018011);
-        ContactItem it2018012= new ContactItem(2018012,"Ngô Thị","Thanh  Huyền","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018012);
-        ContactItem it2018013= new ContactItem(2018013,"Nguyễn Thị","Quỳnh Khanh","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018013);
-        ContactItem it2018014= new ContactItem(2018014,"Lê Thị","Kim","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018014);
-        ContactItem it2018015= new ContactItem(2018015,"Đào Thị","Liên","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018015);
-        ContactItem it2018016= new ContactItem(2018016,"Triệu Thị","Linh","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018016);
-        ContactItem it2018017= new ContactItem(2018017,"Nguyễn Thị","Linh","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018017);
-        ContactItem it2018018= new ContactItem(2018018,"Ngô Văn","Lộc","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018018);
-        ContactItem it2018046= new ContactItem(2018046,"Nguyễn Hữu","Đức","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018046);
-        ContactItem it2018054= new ContactItem(2018054,"Phạm Ngọc","Hanh","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018054);
-        ContactItem it2018081= new ContactItem(2018081,"Phạm Văn","Sang","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018081);
-        ContactItem it2018103= new ContactItem(2018103,"Nguyễn Thị","Yến","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018103);
-        ContactItem it2018104= new ContactItem(2018104,"Phan Thanh","Diệp","last seen June 7, 2018 12:23","0912345678",0,""); listData.add(it2018104);
+        ContactItem it2018001= new ContactItem(SessionInfo.getOwnerId(),1,"system","Vũ Thị","Lan Anh","system@localhost","","",
+                "0912345678",0,"","last seen June 7, 2018 12:23"); listData.add(it2018001);
+
+
+        ContactItem it2018002= new ContactItem(SessionInfo.getOwnerId(),3,"admin","Vũ","Kim Diệu","admin@localhost","","",
+                "0912345679",0,"","last seen June 7, 2018 12:24"); listData.add(it2018002);
+
+        ContactItem it2018003= new ContactItem(SessionInfo.getOwnerId(),4,"user","Ngô Hồng","User","user@localhost","","",
+                "0912345680",0,"","last seen June 7, 2018 12:25"); listData.add(it2018003);
+
+
+        ContactItem it2018004= new ContactItem(SessionInfo.getOwnerId(),7,"devpro1","Lê Nguyễn","Devpro1","devpro1@localhost","","",
+                "0912345681",0,"","last seen June 7, 2018 12:29"); listData.add(it2018004);
+
+        ContactItem it2018008= new ContactItem(SessionInfo.getOwnerId(),8,"devpro2","Trần Văn","Devpro2","devpro2@localhost","","",
+                "0912345681",0,"","last seen June 7, 2018 12:29"); listData.add(it2018008);
+
+        ContactItem it2018009= new ContactItem(SessionInfo.getOwnerId(),9,"devpro3","Vũ Trần","Devpro3","devpro3@localhost","","",
+                "0912345681",0,"","last seen June 7, 2018 12:29"); listData.add(it2018009);
+
+
 
         return listData;
 
     }
 
+    public static void Edit(int ownerIdValue, int idValue,  String firstNameValue, String lastNameValue, String mobilePhoneValue, String emailValue)
+    {
+        boolean isExits = false;
+        for (ContactItem value:listDataContactItem
+                ) {
+            if(idValue>0) {
+                if (value.getId() == idValue) {
+                    isExits = true;
+                    value.setFirstName(firstNameValue);
+                    value.setLastName(lastNameValue);
+                    value.setMobilePhone(mobilePhoneValue);
+                    value.setLastMessage("last seen " + F.DateToStringMMM_dd_yyyy_HH_mm_ss(new Date()));
+
+
+                }
+            }
+            else
+            {
+                if (value.getMobilePhone().equals(mobilePhoneValue)||value.getEmail().equals(emailValue)) {
+                    isExits = true;
+                    value.setFirstName(firstNameValue);
+                    value.setLastName(lastNameValue);
+                    value.setMobilePhone(mobilePhoneValue);
+                    value.setLastMessage("last seen " + F.DateToStringMMM_dd_yyyy_HH_mm_ss(new Date()));
+                }
+            }
+
+        }
+        if(!isExits)
+        {
+            int id= idValue;
+            if(id<1)
+                id= F.IntIsNull(mobilePhoneValue);
+            ContactItem it2018001= new ContactItem(SessionInfo.getOwnerId(),id,""+id,firstNameValue,lastNameValue,emailValue,"","",
+                    mobilePhoneValue,0,"","last seen " + F.DateToStringMMM_dd_yyyy_HH_mm_ss(new Date()));
+            listDataContactItem.add(it2018001);
+
+        }
+    }
 }

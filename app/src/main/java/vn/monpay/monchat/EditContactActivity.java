@@ -11,12 +11,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import vn.monpay.monchat.Models.ContactItem;
+
 public class EditContactActivity extends AppCompatActivity {
 
     private int baseId = 0;			//Y nghia:
     private String firstName = "";			//Y nghia:
     private String lastName = "";			//Y nghia:
     private String mobilePhone = "";			//Y nghia:
+    private String email = "";			//Y nghia:
 
     private RelativeLayout relativeLayout_editcontact_title;
     private TextView textView_editcontact_title;
@@ -55,6 +58,10 @@ public class EditContactActivity extends AppCompatActivity {
             {
                 mobilePhone = MBuddle.getString("mobilePhone");
             }
+            if (MBuddle != null && MBuddle.containsKey("email"))
+            {
+                email = MBuddle.getString("email");
+            }
         }
 
         relativeLayout_editcontact_title = (RelativeLayout)findViewById(R.id.relativeLayout_editcontact_title);
@@ -76,6 +83,11 @@ public class EditContactActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
+                firstName = editText_editcontact_firstname.getText().toString();
+                lastName = editText_editcontact_lastname.getText().toString();
+                mobilePhone = editText_editcontact_mobilephone.getText().toString();
+
+                ContactItem.Edit(SessionInfo.getOwnerId(), baseId,firstName,lastName,mobilePhone,email);
                 finish();
             }
         });
@@ -96,7 +108,6 @@ public class EditContactActivity extends AppCompatActivity {
             }
         });
         textView_editcontact_code = (TextView)findViewById(R.id.textView_editcontact_code);
-        ////textView_editcontact_code.setText(Language.GetContent(""));
         editText_editcontact_mobilephone = (EditText)findViewById(R.id.editText_editcontact_mobilephone);
         editText_editcontact_mobilephone.setText(mobilePhone);
     }

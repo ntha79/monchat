@@ -19,6 +19,7 @@ package vn.monpay.monchat.Models;
 
         import vn.monpay.monchat.R;
         import vn.monpay.monchat.Utilities.F;
+        import vn.monpay.monchat.Utilities.TestAutoMessage;
 
 public class ContactAdapter  extends BaseAdapter {
 
@@ -70,8 +71,9 @@ public class ContactAdapter  extends BaseAdapter {
 
             for (ContactItem curObject:listValue
                     ) {
-                if(curObject.getFullName().contains(searchValue)||
-                        curObject.getLastMessage().contains(searchValue)||curObject.getFullName().contains(searchValue.toUpperCase())||curObject.getFullName().contains(searchValue.toLowerCase())
+                if(curObject.getShowName().contains(searchValue)||curObject.getFirstName().contains(searchValue)||curObject.getLastName().contains(searchValue)||
+                        curObject.getEmail().contains(searchValue)||
+                        curObject.getLastMessage().contains(searchValue)||curObject.getShowName().contains(searchValue.toUpperCase())||curObject.getShowName().contains(searchValue.toLowerCase())
                         )
                     resultListData.add(curObject);
             }
@@ -117,52 +119,14 @@ public class ContactAdapter  extends BaseAdapter {
 
         ContactItem contactItem = this.listData.get(position);
         holder.imageView_contactitem_avatar.setImageResource(R.drawable.border_cricle);
-        if(contactItem.getBaseId()==2018001)
-        {
-            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_g_01);
-            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
-            holder.imageView_contactitem_avatar.setImageBitmap(cbmp);
-        }
-        else if(contactItem.getBaseId()==2018002)
-        {
-            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_g_02);
-            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
-            holder.imageView_contactitem_avatar.setImageBitmap(cbmp);
-        }
-        else if(contactItem.getBaseId()==2018003)
-        {
-            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_g_03);
-            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
-            holder.imageView_contactitem_avatar.setImageBitmap(cbmp);
-        }
-        else if(contactItem.getBaseId()==2018004)
-        {
-            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_g_04);
-            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
-            holder.imageView_contactitem_avatar.setImageBitmap(cbmp);
-        }
-        else if(contactItem.getBaseId()==2018005)
-        {
-            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_g_05);
-            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
-            holder.imageView_contactitem_avatar.setImageBitmap(cbmp);
-        }
-        else if(contactItem.getBaseId()==2018018)
-        {
-            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_b_01);
-            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
-            holder.imageView_contactitem_avatar.setImageBitmap(cbmp);
-        }
-        else if(contactItem.getBaseId()==2018046)
-        {
-            Bitmap tempBMP = BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_demo_b_02);
-            Bitmap cbmp = F.GetBitmapCricleFromBitmap(tempBMP,50,50,R.color.colorPrimary);
-            holder.imageView_contactitem_avatar.setImageBitmap(cbmp);
-        }
+        Bitmap bmp = TestAutoMessage.getBitmapAvatar(context,contactItem.getId());
+        if(bmp!=null)
+            holder.imageView_contactitem_avatar.setImageBitmap(bmp);
+
         holder.textView_contactitem_name.setText(contactItem.getShortName());
-        holder.textView_contactitem_fullname.setText(contactItem.getFullName());
+        holder.textView_contactitem_fullname.setText(contactItem.getShowName());
         holder.textView_contactitem_lastmessage.setText(contactItem.getLastMessage());
-        if(position%5==0)
+        if(position%3==0)
         {
             holder.textView_contactitem_alphabet.setText("A");
         }

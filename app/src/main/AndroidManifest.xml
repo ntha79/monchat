@@ -60,7 +60,8 @@
             android:name="io.fabric.ApiKey"
             android:value="a820b7ea9324f3c0ab85be74b29d6bc4e0cb8987" />
 
-        <activity android:name=".EditContactActivity"></activity>
+        <activity android:name=".EditContactActivity" />
+        <activity android:name=".ChatPToPActivity"></activity>
     </application>
 
 </manifest>

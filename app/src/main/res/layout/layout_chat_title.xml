@@ -47,7 +47,7 @@
 
             <ImageView
                 android:id="@+id/imageView_chattitle_secret"
-                android:layout_width="12dp"
+                android:layout_width="16dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 app:srcCompat="@drawable/ic_menu_secret" />
@@ -63,7 +63,7 @@
 
             <ImageView
                 android:id="@+id/imageView_chattitle_status"
-                android:layout_width="12dp"
+                android:layout_width="16dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 app:srcCompat="@drawable/ic_done_one" />

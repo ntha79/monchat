@@ -45,7 +45,7 @@ public class AboutActivity extends AppCompatActivity {
             }
         }
         if(F.isEmpty(link))
-            link = "https://monpay.vn/about";
+            link = "https://www.giftpop.vn";
         webView_about_content = (WebView)findViewById(R.id.webView_about_content);
 
         fab_about_back = (FloatingActionButton)findViewById(R.id.fab_about_back);
